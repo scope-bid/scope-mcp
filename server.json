@@ -11,9 +11,9 @@
   "websiteUrl": "https://scope-bid.vercel.app/mcp",
   "packages": [
     {
-      "registryType": "github",
-      "registryBaseUrl": "https://github.com",
-      "identifier": "scope-bid/scope-mcp",
+      "registryType": "npm",
+      "registryBaseUrl": "https://registry.npmjs.org",
+      "identifier": "@jackgillen15-dev/scope-mcp",
       "version": "0.1.0",
       "transport": {
         "type": "stdio"
