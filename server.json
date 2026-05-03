@@ -3,7 +3,7 @@
   "name": "io.github.jackgillen15-dev/scope-mcp",
   "title": "Scope",
   "description": "Dispatch litigation work to legal-services vendors from any MCP-compatible AI workflow.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "repository": {
     "url": "https://github.com/scope-bid/scope-mcp",
     "source": "github"
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@jackgillen15-dev/scope-mcp",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "transport": {
         "type": "stdio"
       },
