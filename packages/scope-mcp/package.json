@@ -1,0 +1,55 @@
+{
+  "name": "@scope-bid/scope-mcp",
+  "version": "0.2.0",
+  "mcpName": "io.github.scope-bid/scope-mcp",
+  "description": "Scope MCP server for legal services - dispatch litigation work to vendors from any AI workflow.",
+  "license": "MIT",
+  "author": "Jack Gillen <jack@scope.bid>",
+  "homepage": "https://scope-bid.vercel.app/mcp/legal",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scope-bid/scope-mcp.git",
+    "directory": "packages/scope-mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/scope-bid/scope-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "legal",
+    "legal-tech",
+    "litigation",
+    "claude",
+    "anthropic",
+    "ai-tools",
+    "vendor-procurement",
+    "scope"
+  ],
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "scope-mcp": "dist/server.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@scope-bid/mcp-core": "^0.1.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

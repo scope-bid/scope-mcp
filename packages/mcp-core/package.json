@@ -1,0 +1,46 @@
+{
+  "name": "@scope-bid/mcp-core",
+  "version": "0.1.0",
+  "description": "Shared core for Scope's vertical MCP servers. REST client, auth, base server framework.",
+  "license": "MIT",
+  "author": "Jack Gillen <jack@scope.bid>",
+  "homepage": "https://scope-bid.vercel.app/mcp",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scope-bid/scope-mcp.git",
+    "directory": "packages/mcp-core"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "scope",
+    "legal",
+    "claims",
+    "aec",
+    "sdk",
+    "core"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}

@@ -1,0 +1,54 @@
+{
+  "name": "@scope-bid/scope-claims-mcp",
+  "version": "0.1.0",
+  "mcpName": "io.github.scope-bid/scope-claims-mcp",
+  "description": "Scope MCP server for insurance claims-side vendor procurement (preview - V2 launches Q3 2026).",
+  "license": "MIT",
+  "author": "Jack Gillen <jack@scope.bid>",
+  "homepage": "https://scope-bid.vercel.app/mcp/claims",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/scope-bid/scope-mcp.git",
+    "directory": "packages/scope-claims-mcp"
+  },
+  "bugs": {
+    "url": "https://github.com/scope-bid/scope-mcp/issues"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "insurance",
+    "claims",
+    "ime",
+    "tpa",
+    "claude",
+    "anthropic",
+    "scope"
+  ],
+  "type": "module",
+  "main": "dist/server.js",
+  "bin": {
+    "scope-claims-mcp": "dist/server.js"
+  },
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@scope-bid/mcp-core": "^0.1.0",
+    "zod": "^3.23.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.5.0"
+  }
+}
