@@ -2,10 +2,10 @@
   "name": "@scope-bid/scope-mcp",
   "version": "0.2.0",
   "mcpName": "io.github.scope-bid/scope-mcp",
-  "description": "Scope MCP server for legal services - dispatch litigation work to vendors from any AI workflow.",
+  "description": "MCP server for Scope.bid legal vendor dispatch. Hire court reporters, IMEs, records, experts, e-discovery, and more through your AI assistant.",
   "license": "MIT",
   "author": "Jack Gillen <jack@scope.bid>",
-  "homepage": "https://scope-bid.vercel.app/mcp/legal",
+  "homepage": "https://scope.bid/mcp/legal",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scope-bid/scope-mcp.git",
@@ -17,12 +17,14 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "ai-agents",
+    "ai-tools",
     "legal",
     "legal-tech",
     "litigation",
     "claude",
     "anthropic",
-    "ai-tools",
+    "vendor-dispatch",
     "vendor-procurement",
     "scope"
   ],

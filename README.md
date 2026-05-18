@@ -1,62 +1,110 @@
-# Scope MCP - vertical-services MCP servers
+# @scope-bid/scope-mcp
 
-> The first vertical-services Model Context Protocol implementation. One shared core, three per-vertical wrappers (legal live, claims and AEC in preview), all under the `@scope-bid` npm scope.
+**Hire your next vendor through your AI.**
 
-## Why this exists
+Model Context Protocol servers for Scope.bid vendor dispatch across legal, insurance claims, and AEC services.
 
-[Anthropic launched the Claude Legal Plugin in February 2026](https://claude.com/plugins/legal). Major firms (Freshfields globally, LexisNexis as a partner) deployed AI legal assistants firmwide. Those tools generate content - contract review, NDA triage, drafting. **They cannot dispatch real-world work to real-world vendors.** They have no hands.
+[scope.bid](https://scope.bid) | [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) | [npm](https://www.npmjs.com/org/scope-bid) | [Plugin marketplace](https://github.com/scope-bid/scope-platform)
 
-Scope is the layer that gives them hands. This monorepo houses the Model Context Protocol servers that connect any MCP-compatible AI workflow (Claude Desktop, Claude Code, Cursor, Claude Cowork, etc.) to Scope's vendor network.
+---
 
-## The vertical-MCP pattern
+## What this is
 
-Each vertical gets its own npm package, MCP registry listing, and brand surface. They share a core library so the dispatch primitive is identical across verticals:
+Three Model Context Protocol servers that let AI assistants dispatch vendor requests to credentialed human vendors and receive bids back inside ten minutes.
 
-| Vertical | Package | Status | Launch |
-|---|---|---|---|
-| Legal services | [`@scope-bid/scope-mcp`](https://www.npmjs.com/package/@scope-bid/scope-mcp) | Live | May 2026 |
-| Insurance claims | [`@scope-bid/scope-claims-mcp`](https://www.npmjs.com/package/@scope-bid/scope-claims-mcp) | Preview | Q3 2026 |
-| AEC / construction | [`@scope-bid/scope-aec-mcp`](https://www.npmjs.com/package/@scope-bid/scope-aec-mcp) | Preview | 2027 |
+- `@scope-bid/scope-mcp` - legal vertical (court reporters, IMEs, records, experts, e-discovery, translation, mediators, trial graphics, foreign-jurisdiction counsel, more)
+- `@scope-bid/scope-claims-mcp` - insurance claims (IMEs, surveillance, peer review, voc rehab, life-care plans, defense medical record review)
+- `@scope-bid/scope-aec-mcp` - AEC (subcontractor prequal, bonding, safety records, dispatch)
 
-Shared core: [`@scope-bid/mcp-core`](https://www.npmjs.com/package/@scope-bid/mcp-core).
+Scope.bid is the first vertical-services MCP platform on Anthropic's official Model Context Protocol Registry. Three namespaces are claimed under DNS-verified `bid.scope/*` (legal, claims, AEC). Two are reserved (healthcare, pharma).
 
-## Repo layout
+**Scope.bid is not affiliated with scope-bid.com**, an unrelated laboratory equipment auction platform.
 
-```
-packages/
-├── mcp-core/             Shared library: server framework, REST client, core tools
-├── scope-mcp/            Legal services (live)
-├── scope-claims-mcp/     Insurance claims (preview)
-└── scope-aec-mcp/        AEC subcontractor procurement (preview)
+## Install
+
+```bash
+npm install -g @scope-bid/scope-mcp
+npm install -g @scope-bid/scope-claims-mcp
+npm install -g @scope-bid/scope-aec-mcp
 ```
 
-## Install (any vertical)
+For most clients you do not need to install globally. Use `npx -y @scope-bid/scope-mcp` directly from your MCP client config.
 
-Same 8-line config across the family:
+## Configure (Claude Desktop, Claude Code, Cursor)
 
 ```json
 {
   "mcpServers": {
-    "scope": {
+    "scope-legal": {
       "command": "npx",
       "args": ["-y", "@scope-bid/scope-mcp"],
-      "env": { "SCOPE_API_TOKEN": "scope_pk_..." }
+      "env": {
+        "SCOPE_API_TOKEN": "your-token-here"
+      }
+    },
+    "scope-claims": {
+      "command": "npx",
+      "args": ["-y", "@scope-bid/scope-claims-mcp"],
+      "env": {
+        "SCOPE_API_TOKEN": "your-token-here"
+      }
     }
   }
 }
 ```
 
-Swap the package name (`scope-mcp` → `scope-claims-mcp` → `scope-aec-mcp`) for the other verticals.
+For read-only demo usage the token is optional.
 
-## Development
+## Or use HTTP transport (no install)
 
-```bash
-npm install
-npm run build  # builds all packages via npm workspaces
+```json
+{
+  "mcpServers": {
+    "scope-legal": {
+      "type": "http",
+      "url": "https://scope.bid/api/mcp/legal",
+      "headers": { "Authorization": "Bearer your-token-here" }
+    }
+  }
+}
 ```
 
-Each package has its own `package.json`, `tsconfig.json`, and `server.json` (for MCP registry).
+HTTP endpoints:
+- https://scope.bid/api/mcp/legal
+- https://scope.bid/api/mcp/claims
+- https://scope.bid/api/mcp/aec
 
-## License
+## Tools
 
-MIT
+**Legal** (`bid.scope/legal`):
+- `scope_dispatch_matter` - send a matter to vendors and get live quotes
+- `scope_briefing` - daily briefing across all open matters
+- `scope_get_matter`, `scope_list_matters`, `scope_list_categories`, `scope_list_vendors`, `scope_list_roster`
+- `scope_set_vendor_tier`, `scope_remove_from_roster`, `scope_award_matter`
+- `scope_roster_audit`, `scope_vendor_health`, `scope_spend_rollup`, `scope_credential_alerts`
+- `swp_propose`, `swp_clarify`, `swp_bid`, `swp_counter`, `swp_accept`, `swp_refine`, `swp_reject`, `swp_session_status` - Scope Work Protocol negotiation primitives
+
+**Claims** (`bid.scope/claims`): IME routing, surveillance coordination, defense medical record review, life-care planning, voc rehab routing, roster audit, credential alerts.
+
+**AEC** (`bid.scope/aec`): subcontractor dispatch, prequalification, bonding capacity, safety record pulls, AEC vendor listing.
+
+## Environment variables
+
+- `SCOPE_API_BASE` - override the default API base. Defaults to `https://scope.bid`.
+- `SCOPE_API_TOKEN` - bearer token for write operations.
+- `SCOPE_ORG_SLUG` - pin reads and writes to a specific buyer organization. Useful for multi-tenant deployments.
+
+## Plugin marketplace alternative
+
+If you want bundled slash commands and skills along with the MCP server registration, install the plugin marketplace instead:
+
+```
+/plugin marketplace add github.com/scope-bid/scope-platform
+/plugin install scope-legal
+```
+
+## Company
+
+Scope Bid, Inc. is a Delaware C-corp founded May 2026 by Jack Gillen. San Diego, CA. Patent pending.
+
+LinkedIn: https://www.linkedin.com/company/scope-bid/

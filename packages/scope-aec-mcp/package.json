@@ -2,10 +2,10 @@
   "name": "@scope-bid/scope-aec-mcp",
   "version": "0.1.0",
   "mcpName": "io.github.scope-bid/scope-aec-mcp",
-  "description": "Scope MCP server for AEC subcontractor vendor procurement (preview - V3 launches 2027).",
+  "description": "MCP server for Scope.bid AEC vendor dispatch. Subcontractor prequal, bonding, safety, dispatch through your AI assistant.",
   "license": "MIT",
   "author": "Jack Gillen <jack@scope.bid>",
-  "homepage": "https://scope-bid.vercel.app/mcp/aec",
+  "homepage": "https://scope.bid/mcp/aec",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scope-bid/scope-mcp.git",
@@ -17,11 +17,15 @@
   "keywords": [
     "mcp",
     "model-context-protocol",
+    "ai-agents",
+    "ai-tools",
     "construction",
     "aec",
     "subcontractor",
     "claude",
     "anthropic",
+    "vendor-dispatch",
+    "vendor-procurement",
     "scope"
   ],
   "type": "module",
