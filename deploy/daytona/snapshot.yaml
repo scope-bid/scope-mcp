@@ -1,0 +1,35 @@
+# Daytona sandbox snapshot for the Scope MCP gateway.
+#
+# Apply with:
+#   daytona snapshot apply snapshot.yaml
+#
+# Daytona's sandbox model runs the gateway in an isolated workspace
+# reachable via an Anthropic Managed Agents tunnel.
+
+apiVersion: daytona.io/v1
+kind: Workspace
+metadata:
+  name: scope-mcp-gateway
+spec:
+  image: scopebid/scope-mcp:1.0.0
+  resources:
+    cpu: "0.5"
+    memory: "512Mi"
+  env:
+    - name: SCOPE_API_BASE
+      value: https://scope.bid
+    - name: SCOPE_API_TOKEN
+      valueFrom:
+        secretKeyRef:
+          name: scope-api-token
+          key: token
+    - name: PORT
+      value: "8080"
+  ports:
+    - port: 8080
+      protocol: TCP
+  healthCheck:
+    path: /health
+    port: 8080
+    initialDelaySeconds: 5
+    periodSeconds: 30

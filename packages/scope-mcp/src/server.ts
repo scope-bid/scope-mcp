@@ -14,7 +14,7 @@
 // expert witness, process serving, trial graphics, ADR scheduling, and
 // translation roll out as Scope's V1 cohort onboards.
 
-import { createScopeServer } from "@scope-bid/mcp-core";
+import { createScopeServer, startHttpGateway } from "@scope-bid/mcp-core";
 import { z } from "zod";
 
 const SERVER_VERSION = "0.2.0";
@@ -147,8 +147,36 @@ server.registerTool(
 // ----------------------------------------------------------------------------
 // Start
 // ----------------------------------------------------------------------------
+//
+// Two modes:
+//   - stdio (default): the long-standing transport, unchanged. AI
+//     clients spawn the process and talk over stdin/stdout.
+//   - serve: HTTP gateway mode, added in v1.0. Use when running
+//     inside a customer perimeter via the Anthropic Managed Agents
+//     tunnel pattern.
+//
+//   npx @scope-bid/scope-mcp               -> stdio (existing behavior)
+//   npx @scope-bid/scope-mcp serve         -> HTTP on port 8080 (or PORT env)
+//   npx @scope-bid/scope-mcp serve --port 9090
 
-server.start().catch((err: unknown) => {
-  process.stderr.write(`[scope-mcp] fatal: ${String(err)}\n`);
-  process.exit(1);
-});
+const args = process.argv.slice(2);
+const subcommand = args[0];
+
+if (subcommand === "serve") {
+  const portFlagIdx = args.indexOf("--port");
+  const portArg =
+    portFlagIdx >= 0 && args[portFlagIdx + 1]
+      ? Number(args[portFlagIdx + 1])
+      : undefined;
+  startHttpGateway({
+    server,
+    vertical: "legal",
+    version: SERVER_VERSION,
+    port: portArg,
+  });
+} else {
+  server.start().catch((err: unknown) => {
+    process.stderr.write(`[scope-mcp] fatal: ${String(err)}\n`);
+    process.exit(1);
+  });
+}

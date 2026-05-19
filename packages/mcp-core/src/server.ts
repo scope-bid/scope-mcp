@@ -25,6 +25,13 @@ export type ScopeServerInstance = {
   start: () => Promise<void>;
   /** REST client; vertical packages can use it directly if needed. */
   api: ScopeApiClient;
+  /** List registered tool definitions. Used by the HTTP gateway. */
+  listTools: () => Tool[];
+  /** Execute a tool by name. Used by the HTTP gateway transport. */
+  callTool: (
+    name: string,
+    args: Record<string, unknown>,
+  ) => Promise<unknown>;
 };
 
 export function createScopeServer(config: ScopeServerConfig): ScopeServerInstance {
@@ -92,5 +99,20 @@ export function createScopeServer(config: ScopeServerConfig): ScopeServerInstanc
     );
   }
 
-  return { registerTool, start, api };
+  function listTools(): Tool[] {
+    return tools.map((t) => t.definition);
+  }
+
+  async function callTool(
+    name: string,
+    args: Record<string, unknown>,
+  ): Promise<unknown> {
+    const found = tools.find((t) => t.definition.name === name);
+    if (!found) {
+      throw new Error(`Unknown tool: ${name}`);
+    }
+    return await found.handler(args);
+  }
+
+  return { registerTool, start, api, listTools, callTool };
 }

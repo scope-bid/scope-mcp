@@ -15,8 +15,11 @@
 // this and layer on their own vertical-specific tools.
 
 export { createScopeServer } from "./server.js";
+export type { ScopeServerInstance } from "./server.js";
 export { ScopeApiClient } from "./api-client.js";
 export { registerCoreTools } from "./tools.js";
+export { startHttpGateway } from "./http-gateway.js";
+export type { HttpGatewayConfig } from "./http-gateway.js";
 export type {
   ScopeServerConfig,
   ScopeApiConfig,

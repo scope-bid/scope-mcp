@@ -1,0 +1,19 @@
+{
+  "version": 2,
+  "builds": [
+    {
+      "src": "packages/scope-mcp/dist/server.js",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "packages/scope-mcp/dist/server.js"
+    }
+  ],
+  "env": {
+    "SCOPE_API_BASE": "https://scope.bid",
+    "PORT": "8080"
+  }
+}

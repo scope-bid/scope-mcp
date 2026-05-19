@@ -15,7 +15,7 @@
 // namespace and the MCP registry listing. Full dispatch tools land at
 // v1.0.0 when V3 ships.
 
-import { createScopeServer } from "@scope-bid/mcp-core";
+import { createScopeServer, startHttpGateway } from "@scope-bid/mcp-core";
 import { z } from "zod";
 
 const SERVER_VERSION = "0.1.0";
@@ -137,7 +137,27 @@ server.registerTool(
   },
 );
 
-server.start().catch((err: unknown) => {
-  process.stderr.write(`[scope-aec-mcp] fatal: ${String(err)}\n`);
-  process.exit(1);
-});
+//   npx @scope-bid/scope-aec-mcp           -> stdio (existing)
+//   npx @scope-bid/scope-aec-mcp serve     -> HTTP gateway (added v1.0)
+
+const cliArgs = process.argv.slice(2);
+const subcommand = cliArgs[0];
+
+if (subcommand === "serve") {
+  const portFlagIdx = cliArgs.indexOf("--port");
+  const portArg =
+    portFlagIdx >= 0 && cliArgs[portFlagIdx + 1]
+      ? Number(cliArgs[portFlagIdx + 1])
+      : undefined;
+  startHttpGateway({
+    server,
+    vertical: "aec",
+    version: SERVER_VERSION,
+    port: portArg,
+  });
+} else {
+  server.start().catch((err: unknown) => {
+    process.stderr.write(`[scope-aec-mcp] fatal: ${String(err)}\n`);
+    process.exit(1);
+  });
+}

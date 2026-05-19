@@ -1,0 +1,99 @@
+# Scope MCP gateway on Kubernetes.
+#
+# Apply with:
+#   kubectl apply -f manifest.yaml
+#
+# Replace the SCOPE_API_TOKEN secret value before applying. The secret
+# can be replaced in-place later for rotation - the Deployment rolling
+# update picks it up on the next pod respawn, OR use SIGHUP to reload
+# without restart (see README for the kubectl exec invocation).
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: scope-gateway
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: scope-api-token
+  namespace: scope-gateway
+type: Opaque
+stringData:
+  SCOPE_API_TOKEN: REPLACE_ME
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: scope-gateway-config
+  namespace: scope-gateway
+data:
+  SCOPE_API_BASE: https://scope.bid
+  PORT: "8080"
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: scope-legal-gateway
+  namespace: scope-gateway
+  labels:
+    app: scope-legal-gateway
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: scope-legal-gateway
+  template:
+    metadata:
+      labels:
+        app: scope-legal-gateway
+    spec:
+      terminationGracePeriodSeconds: 45
+      containers:
+        - name: gateway
+          image: scopebid/scope-mcp:1.0.0
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: scope-gateway-config
+            - secretRef:
+                name: scope-api-token
+          resources:
+            requests:
+              cpu: "250m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 30
+          readinessProbe:
+            httpGet:
+              path: /ready
+              port: 8080
+            initialDelaySeconds: 3
+            periodSeconds: 10
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: scope-legal-gateway
+  namespace: scope-gateway
+spec:
+  type: ClusterIP
+  selector:
+    app: scope-legal-gateway
+  ports:
+    - port: 8080
+      targetPort: 8080
+      name: http

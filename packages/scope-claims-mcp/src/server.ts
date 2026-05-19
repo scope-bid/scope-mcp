@@ -18,7 +18,7 @@
 // When V2 launches, this package upgrades to v1.0.0 with the full
 // dispatch/get/list tool set inherited from @scope-bid/mcp-core.
 
-import { createScopeServer } from "@scope-bid/mcp-core";
+import { createScopeServer, startHttpGateway } from "@scope-bid/mcp-core";
 import { z } from "zod";
 
 const SERVER_VERSION = "0.1.0";
@@ -166,8 +166,28 @@ server.registerTool(
 // ----------------------------------------------------------------------------
 // Start
 // ----------------------------------------------------------------------------
+//
+//   npx @scope-bid/scope-claims-mcp           -> stdio (existing)
+//   npx @scope-bid/scope-claims-mcp serve     -> HTTP gateway (added v1.0)
 
-server.start().catch((err: unknown) => {
-  process.stderr.write(`[scope-claims-mcp] fatal: ${String(err)}\n`);
-  process.exit(1);
-});
+const cliArgs = process.argv.slice(2);
+const subcommand = cliArgs[0];
+
+if (subcommand === "serve") {
+  const portFlagIdx = cliArgs.indexOf("--port");
+  const portArg =
+    portFlagIdx >= 0 && cliArgs[portFlagIdx + 1]
+      ? Number(cliArgs[portFlagIdx + 1])
+      : undefined;
+  startHttpGateway({
+    server,
+    vertical: "claims",
+    version: SERVER_VERSION,
+    port: portArg,
+  });
+} else {
+  server.start().catch((err: unknown) => {
+    process.stderr.write(`[scope-claims-mcp] fatal: ${String(err)}\n`);
+    process.exit(1);
+  });
+}

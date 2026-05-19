@@ -1,0 +1,16 @@
+name = "scope-mcp-gateway"
+main = "../../packages/scope-mcp/dist/server.js"
+compatibility_date = "2025-01-01"
+node_compat = true
+
+# The gateway runs against scope.bid by default. SCOPE_API_TOKEN must
+# be set as a Workers secret via:
+#   wrangler secret put SCOPE_API_TOKEN
+[vars]
+SCOPE_API_BASE = "https://scope.bid"
+PORT = "8080"
+
+# Inbound auth uses the same SCOPE_API_TOKEN. Configure your DNS to
+# point your gateway hostname at the Workers route below.
+# [route] is set up via the dashboard or `wrangler deploy --route` once
+# you've decided on your gateway hostname.
