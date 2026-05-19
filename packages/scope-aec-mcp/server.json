@@ -3,19 +3,27 @@
   "name": "io.github.scope-bid/scope-aec-mcp",
   "title": "Scope (AEC) - Preview",
   "description": "AEC subcontractor vendor procurement plumbing layer. Preview - V3 launches 2027.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "repository": {
     "url": "https://github.com/scope-bid/scope-mcp",
     "source": "github"
   },
-  "websiteUrl": "https://scope-bid.vercel.app/mcp/aec",
+  "websiteUrl": "https://scope.bid/mcp/aec",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@scope-bid/scope-aec-mcp",
-      "version": "0.1.0",
-      "transport": { "type": "stdio" }
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://scope.bid/api/mcp/aec"
     }
   ]
 }

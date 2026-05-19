@@ -1,0 +1,41 @@
+# Load test the Scope MCP gateway against a deployed staging URL.
+#
+# Manual trigger only - this fires k6 at a real gateway endpoint, so
+# you don't want it running on every push. The workflow expects:
+#
+#   inputs.target_url - the gateway base URL (e.g. https://gw.fly.dev)
+#   secrets.SCOPE_API_TOKEN_STAGING - bearer token the gateway will accept
+#
+# Target: 100 concurrent users sustained for 5 minutes, p95 latency
+# under 500ms. The k6 thresholds enforce the SLO; the workflow fails
+# if p95 exceeds 500ms.
+
+name: Load test gateway
+
+on:
+  workflow_dispatch:
+    inputs:
+      target_url:
+        description: "Gateway URL to load test (no trailing slash)"
+        required: true
+        type: string
+      duration_minutes:
+        description: "Sustained-load duration in minutes"
+        required: false
+        default: "5"
+        type: string
+
+jobs:
+  k6:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run k6 load test
+        uses: grafana/k6-action@v0.3.1
+        with:
+          filename: tests/load/gateway.k6.js
+        env:
+          TARGET_URL: ${{ github.event.inputs.target_url }}
+          DURATION_MINUTES: ${{ github.event.inputs.duration_minutes }}
+          SCOPE_API_TOKEN: ${{ secrets.SCOPE_API_TOKEN_STAGING }}

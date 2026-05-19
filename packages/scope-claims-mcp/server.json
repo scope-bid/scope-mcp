@@ -3,19 +3,27 @@
   "name": "io.github.scope-bid/scope-claims-mcp",
   "title": "Scope (Claims) - Preview",
   "description": "Insurance claims-side vendor procurement (IMEs, IA, surveillance). Preview - V2 launches Q3 2026.",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "repository": {
     "url": "https://github.com/scope-bid/scope-mcp",
     "source": "github"
   },
-  "websiteUrl": "https://scope-bid.vercel.app/mcp/claims",
+  "websiteUrl": "https://scope.bid/mcp/claims",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@scope-bid/scope-claims-mcp",
-      "version": "0.1.0",
-      "transport": { "type": "stdio" }
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://scope.bid/api/mcp/claims"
     }
   ]
 }

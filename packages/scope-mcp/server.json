@@ -3,29 +3,31 @@
   "name": "io.github.scope-bid/scope-mcp",
   "title": "Scope (Legal)",
   "description": "Dispatch litigation work to legal-services vendors from any MCP-compatible AI workflow.",
-  "version": "0.2.0",
+  "version": "1.0.0",
   "repository": {
     "url": "https://github.com/scope-bid/scope-mcp",
     "source": "github"
   },
-  "websiteUrl": "https://scope-bid.vercel.app/mcp/legal",
+  "websiteUrl": "https://scope.bid/mcp/legal",
   "packages": [
     {
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@scope-bid/scope-mcp",
-      "version": "0.2.0",
-      "transport": { "type": "stdio" },
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      },
       "environmentVariables": [
         {
           "name": "SCOPE_API_BASE",
           "description": "Base URL of the Scope API. Defaults to the hosted instance.",
-          "default": "https://scope-bid.vercel.app",
+          "default": "https://scope.bid",
           "isRequired": false
         },
         {
           "name": "SCOPE_API_TOKEN",
-          "description": "Bearer token from scope-bid.vercel.app/settings. Required for write tools.",
+          "description": "Bearer token from scope.bid/settings/api-tokens. Required for write tools.",
           "isSecret": true,
           "isRequired": false
         },
@@ -35,6 +37,12 @@
           "isRequired": false
         }
       ]
+    }
+  ],
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://scope.bid/api/mcp/legal"
     }
   ]
 }

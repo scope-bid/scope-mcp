@@ -1,6 +1,6 @@
 {
   "name": "@scope-bid/scope-aec-mcp",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "mcpName": "io.github.scope-bid/scope-aec-mcp",
   "description": "MCP server for Scope.bid AEC vendor dispatch. Subcontractor prequal, bonding, safety, dispatch through your AI assistant.",
   "license": "MIT",
@@ -47,7 +47,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@scope-bid/mcp-core": "^0.1.0",
+    "@scope-bid/mcp-core": "^1.0.0",
     "zod": "^3.23.0"
   },
   "devDependencies": {
