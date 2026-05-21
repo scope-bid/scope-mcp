@@ -1,7 +1,7 @@
 {
   "name": "@scope-bid/scope-claims-mcp",
-  "version": "1.0.0",
-  "mcpName": "io.github.scope-bid/scope-claims-mcp",
+  "version": "1.0.1",
+  "mcpName": "bid.scope/claims",
   "description": "MCP server for Scope.bid insurance claims vendor dispatch. IMEs, surveillance, peer review, life-care plans, voc rehab through your AI assistant.",
   "license": "MIT",
   "author": "Jack Gillen <jack@scope.bid>",
