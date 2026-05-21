@@ -1,0 +1,97 @@
+# Publish all four Scope MCP packages to npm via Trusted Publishing.
+#
+# Trusted Publishing is npm's OIDC-based flow: the GitHub Actions runner
+# exchanges its OIDC token for a short-lived npm publish credential, so
+# we never store an NPM_TOKEN secret in the repo. This is the long-term
+# fix for the 2FA pain we hit with the npm CLI (security-key + recovery
+# codes are still required for local publishes, but CI doesn't need them).
+#
+# Setup (one-time, per package, in the npm UI):
+#   https://www.npmjs.com/package/<package>/access -> "Publishing access"
+#   -> Add trusted publisher -> GitHub Actions
+#     - Organization: scope-bid
+#     - Repository:   scope-mcp
+#     - Workflow:     publish.yml
+#     - Environment:  npm-publish
+#
+# Trigger: push a git tag matching v*.*.* on main. Example:
+#   git tag v1.0.0
+#   git push origin v1.0.0
+#
+# Publish order matters: mcp-core ships first (the other three depend
+# on it). The wait step gives the npm registry a moment to propagate
+# the mcp-core publish before the verticals resolve the dep.
+
+name: Publish to npm
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment: npm-publish
+
+    # OIDC permissions: id-token: write is required for Trusted Publishing.
+    # contents: read is the default; declaring it here makes intent explicit.
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+
+      - name: Verify npm version supports Trusted Publishing
+        # Trusted Publishing requires npm >= 11.5.1. The runner's default
+        # npm 10 will not work. Upgrade in-place; setup-node@v4 doesn't
+        # let us pin npm directly.
+        run: |
+          npm install -g npm@latest
+          npm --version
+
+      - name: Install workspace dependencies
+        run: npm ci
+
+      - name: Build all packages
+        run: npm run build --workspaces --if-present
+
+      - name: Publish @scope-bid/mcp-core
+        working-directory: packages/mcp-core
+        run: npm publish --provenance --access public
+
+      - name: Wait for mcp-core to propagate
+        # The three vertical packages declare a runtime dep on mcp-core.
+        # npm's registry CDN takes a few seconds to make a freshly
+        # published version visible to installs. 20s is conservative.
+        run: sleep 20
+
+      - name: Publish @scope-bid/scope-mcp
+        working-directory: packages/scope-mcp
+        run: npm publish --provenance --access public
+
+      - name: Publish @scope-bid/scope-claims-mcp
+        working-directory: packages/scope-claims-mcp
+        run: npm publish --provenance --access public
+
+      - name: Publish @scope-bid/scope-aec-mcp
+        working-directory: packages/scope-aec-mcp
+        run: npm publish --provenance --access public
+
+      - name: Summary
+        run: |
+          echo "Published packages:" >> $GITHUB_STEP_SUMMARY
+          echo "- @scope-bid/mcp-core@$(node -p "require('./packages/mcp-core/package.json').version")" >> $GITHUB_STEP_SUMMARY
+          echo "- @scope-bid/scope-mcp@$(node -p "require('./packages/scope-mcp/package.json').version")" >> $GITHUB_STEP_SUMMARY
+          echo "- @scope-bid/scope-claims-mcp@$(node -p "require('./packages/scope-claims-mcp/package.json').version")" >> $GITHUB_STEP_SUMMARY
+          echo "- @scope-bid/scope-aec-mcp@$(node -p "require('./packages/scope-aec-mcp/package.json').version")" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "All published with sigstore provenance attestations." >> $GITHUB_STEP_SUMMARY
