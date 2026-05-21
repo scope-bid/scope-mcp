@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.scope-bid/scope-mcp",
+  "name": "bid.scope/legal",
   "title": "Scope (Legal)",
   "description": "Dispatch litigation work to legal-services vendors from any MCP-compatible AI workflow.",
   "version": "1.0.0",

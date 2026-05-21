@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.scope-bid/scope-aec-mcp",
+  "name": "bid.scope/aec",
   "title": "Scope (AEC) - Preview",
   "description": "AEC subcontractor vendor procurement plumbing layer. Preview - V3 launches 2027.",
   "version": "1.0.0",

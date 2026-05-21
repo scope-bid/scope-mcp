@@ -1,6 +1,6 @@
 {
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
-  "name": "io.github.scope-bid/scope-claims-mcp",
+  "name": "bid.scope/claims",
   "title": "Scope (Claims) - Preview",
   "description": "Insurance claims-side vendor procurement (IMEs, IA, surveillance). Preview - V2 launches Q3 2026.",
   "version": "1.0.0",
