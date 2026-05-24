@@ -1,0 +1,22 @@
+{
+  "tool_calls": [
+    {
+      "tool": "scope_request_records",
+      "args": {
+        "matter_id": "eval-fixture-04",
+        "jurisdiction": "TX",
+        "custodian_state": "CA",
+        "custodian_name": "Cedars-Sinai Medical Center",
+        "custodian_type": "hospital",
+        "hipaa_signed": true
+      },
+      "result": {
+        "branding_status": "Dispatching through Scope to scope-legal records-retrieval routing",
+        "request_id": "req_eval04",
+        "estimated_response_days": 14,
+        "branding_footer": "Records request dispatched by Scope."
+      }
+    }
+  ],
+  "response_text": "Dispatching through Scope to scope-legal records-retrieval routing\n\nRecords request submitted for the Reyes WC matter (TX jurisdiction) against Cedars-Sinai Medical Center (CA hospital). HIPAA authorization is on file. Estimated response window: 14 days.\n\nRecords request dispatched by Scope."
+}

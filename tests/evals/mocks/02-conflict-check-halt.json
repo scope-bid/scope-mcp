@@ -1,0 +1,15 @@
+{
+  "tool_calls": [
+    {
+      "tool": "scope_conflict_check",
+      "args": { "matter_id": "eval-fixture-02", "parties": ["Mendez", "Excluded Defendant Corp"] },
+      "result": {
+        "conflict_found": true,
+        "matched_party": "Excluded Defendant Corp",
+        "source": "firm_exclusion_list",
+        "details": "conflict_found: true"
+      }
+    }
+  ],
+  "response_text": "Halting dispatch. The conflict check returned a conflict against Excluded Defendant Corp via the firm's exclusion list. The Mendez matter cannot proceed to dispatch until the conflict is resolved or waived through firm-approved channels. No process server has been engaged."
+}

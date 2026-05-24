@@ -1,0 +1,25 @@
+{
+  "name": "no-vendor-fallback",
+  "input": {
+    "user_message": "We need trial graphics for a case in Cheyenne, Wyoming.",
+    "matter_context": {
+      "matter_id": "eval-fixture-05",
+      "jurisdiction": "WY",
+      "vendor_category": "trial_graphics"
+    },
+    "mocked_tool_response": {
+      "scope_dispatch_matter": {
+        "vendors_quoted": [],
+        "declined_vendors": [],
+        "fallback": "verified_partner_routing",
+        "fallback_sla_hours": 24
+      }
+    }
+  },
+  "expected_tool_calls": [
+    { "tool": "scope_dispatch_matter", "result_quotes_count": 0 }
+  ],
+  "response_must_contain_one_of": ["verified partners", "24-hour", "24 hour"],
+  "forbidden_fabrications": "vendor_names_not_in_tool_output",
+  "response_must_not_contain": ["matched", "recommended", "—"]
+}

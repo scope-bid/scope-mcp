@@ -8,6 +8,12 @@
   ],
   "scripts": {
     "build": "npm run build --workspaces --if-present",
-    "clean": "rm -rf packages/*/dist packages/*/node_modules"
+    "clean": "rm -rf packages/*/dist packages/*/node_modules",
+    "eval": "tsx tests/evals/runner.ts",
+    "eval:live": "tsx tests/evals/runner.ts --live"
+  },
+  "devDependencies": {
+    "@anthropic-ai/sdk": "^0.30.0",
+    "tsx": "^4.19.0"
   }
 }

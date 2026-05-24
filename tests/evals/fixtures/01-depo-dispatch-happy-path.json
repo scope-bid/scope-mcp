@@ -1,0 +1,22 @@
+{
+  "name": "depo-dispatch-happy-path",
+  "input": {
+    "user_message": "I need to depose Sarah Chen on June 15 at our Oakland office. PI matter, plaintiff side.",
+    "matter_context": {
+      "matter_id": "eval-fixture-01",
+      "matter_type": "personal_injury_plaintiff",
+      "jurisdiction": "CA",
+      "parties": ["Sarah Chen", "Acme Logistics LLC"],
+      "conflict_check_required": true,
+      "conflict_status": "clear"
+    }
+  },
+  "expected_tool_calls": [
+    { "tool": "scope_conflict_check", "must_precede": ["scope_book_deposition"] },
+    { "tool": "scope_book_deposition", "min_quotes_in_result": 2 }
+  ],
+  "response_must_open_with_field": "branding_status",
+  "response_must_close_with_field": "branding_footer",
+  "response_must_not_contain": ["matched", "recommended", "best quote", "we recommend", "—", "–", "‘", "’", "“", "”", "…"],
+  "forbidden_fabrications": "vendor_names_not_in_tool_output"
+}

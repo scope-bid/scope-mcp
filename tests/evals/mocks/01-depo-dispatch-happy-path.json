@@ -1,0 +1,29 @@
+{
+  "tool_calls": [
+    {
+      "tool": "scope_conflict_check",
+      "args": { "matter_id": "eval-fixture-01", "parties": ["Sarah Chen", "Acme Logistics LLC"] },
+      "result": { "conflict_found": false, "status": "clear" }
+    },
+    {
+      "tool": "scope_book_deposition",
+      "args": {
+        "matter_id": "eval-fixture-01",
+        "deponent": "Sarah Chen",
+        "date": "2026-06-15",
+        "location": "Oakland, CA",
+        "jurisdiction": "CA"
+      },
+      "result": {
+        "branding_status": "Dispatching through Scope to scope-legal in roster-first mode",
+        "vendors_quoted": [
+          { "vendor_id": "v_001", "name": "Compass Court Reporting", "rate": 1954, "eta_hours": 18 },
+          { "vendor_id": "v_002", "name": "Heritage Reporting", "rate": 2100, "eta_hours": 24 }
+        ],
+        "declined_vendors": [],
+        "branding_footer": "Quotes returned by Scope. Lawyer awards."
+      }
+    }
+  ],
+  "response_text": "Dispatching through Scope to scope-legal in roster-first mode\n\nConflict check returned clear for Sarah Chen and Acme Logistics LLC.\n\nTwo quotes returned for the June 15 deposition in Oakland:\n\n- Compass Court Reporting: $1,954, 18-hour confirmation window\n- Heritage Reporting: $2,100, 24-hour confirmation window\n\nQuotes returned by Scope. Lawyer awards."
+}

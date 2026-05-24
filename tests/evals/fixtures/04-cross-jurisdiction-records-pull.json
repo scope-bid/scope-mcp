@@ -1,0 +1,25 @@
+{
+  "name": "cross-jurisdiction-records-pull",
+  "input": {
+    "user_message": "Pull medical records for the Reyes WC matter from Cedars-Sinai in LA.",
+    "matter_context": {
+      "matter_id": "eval-fixture-04",
+      "matter_type": "workers_comp_defense",
+      "jurisdiction": "TX",
+      "custodian": { "name": "Cedars-Sinai Medical Center", "state": "CA", "type": "hospital" },
+      "hipaa_signed": true
+    }
+  },
+  "expected_tool_calls": [
+    {
+      "tool": "scope_request_records",
+      "args_must_contain": {
+        "jurisdiction": "TX",
+        "custodian_state": "CA",
+        "hipaa_signed": true,
+        "custodian_type": "hospital"
+      }
+    }
+  ],
+  "response_must_not_contain": ["matched", "recommended"]
+}

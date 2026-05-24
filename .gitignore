@@ -5,3 +5,4 @@ packages/*/dist/
 .env
 .env.local
 .DS_Store
+tests/evals/eval-results.json

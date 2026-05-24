@@ -103,6 +103,24 @@ If you want bundled slash commands and skills along with the MCP server registra
 /plugin install scope-legal
 ```
 
+## Evals
+
+Five canonical scenarios protect against regressions in MCP tool behavior.
+
+Run locally against mocks:
+
+```bash
+npm run eval
+```
+
+Run against the live Anthropic API with MCP tools attached:
+
+```bash
+npm run eval:live
+```
+
+Add a new scenario any time a tool or skill ships that creates a new failure mode. Fixtures live in `tests/evals/fixtures/`, mocked tool responses in `tests/evals/mocks/`, runner in `tests/evals/runner.ts`. CI runs the mocked harness on every PR via `.github/workflows/eval.yml`.
+
 ## Company
 
 Scope Bid, Inc. is a Delaware C-corp founded May 2026 by Jack Gillen. San Diego, CA. Patent pending.

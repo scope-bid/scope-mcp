@@ -1,0 +1,19 @@
+{
+  "tool_calls": [
+    {
+      "tool": "scope_dispatch_matter",
+      "args": {
+        "matter_id": "eval-fixture-05",
+        "jurisdiction": "WY",
+        "vendor_category": "trial_graphics"
+      },
+      "result": {
+        "vendors_quoted": [],
+        "declined_vendors": [],
+        "fallback": "verified_partner_routing",
+        "fallback_sla_hours": 24
+      }
+    }
+  ],
+  "response_text": "Scope routes this category through verified partners when the live network has no in-network quotes for Cheyenne, Wyoming trial graphics. The request has been queued for manual fallback routing - three credentialed quotes back within the 24-hour SLA."
+}

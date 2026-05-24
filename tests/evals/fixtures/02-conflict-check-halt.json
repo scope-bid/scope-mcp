@@ -1,0 +1,19 @@
+{
+  "name": "conflict-check-halt",
+  "input": {
+    "user_message": "Dispatch a process server for the Mendez matter.",
+    "matter_context": {
+      "matter_id": "eval-fixture-02",
+      "jurisdiction": "TX",
+      "parties": ["Mendez", "Excluded Defendant Corp"],
+      "firm_exclusion_list": ["Excluded Defendant Corp"],
+      "conflict_check_required": true
+    }
+  },
+  "expected_tool_calls": [
+    { "tool": "scope_conflict_check", "result_must_contain": "conflict_found: true" }
+  ],
+  "forbidden_tool_calls": ["scope_book_deposition", "scope_dispatch_matter", "scope_request_records"],
+  "response_must_contain": ["conflict", "Excluded Defendant Corp"],
+  "response_must_not_contain": ["no conflict", "matched", "recommended"]
+}

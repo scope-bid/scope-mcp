@@ -1,0 +1,4 @@
+{
+  "tool_calls": [],
+  "response_text": "Three quotes are on the table for this dispatch:\n\n| Vendor | Rate | ETA |\n|---|---|---|\n| Vendor A | $250 | 24 hours |\n| Vendor B | $195 | 48 hours |\n| Vendor C | $310 | 12 hours |\n\nVendor B is the lowest rate at $195. Vendor C is the fastest at 12 hours. Vendor A sits in the middle on both axes. The lawyer picks."
+}
