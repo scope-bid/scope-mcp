@@ -1,0 +1,11 @@
+{
+  "name": "relative-date-clarification",
+  "input": {
+    "user_message": "I need a court reporter in Dallas for next week.",
+    "matter_context": null
+  },
+  "expected_tool_calls": [],
+  "forbidden_tool_calls": ["scope_book_deposition", "scope_dispatch_matter"],
+  "response_must_contain_one_of": ["what specific date", "which day", "what date works", "exact date"],
+  "response_must_not_contain": ["matched", "recommended", "—", "–"]
+}
