@@ -1,9 +1,9 @@
 {
   "name": "@scope-bid/scope-aec-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "mcpName": "bid.scope/aec",
   "description": "MCP server for Scope.bid AEC vendor dispatch. Subcontractor prequal, bonding, safety, dispatch through your AI assistant.",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "Jack Gillen <jack@scope.bid>",
   "homepage": "https://scope.bid/mcp/aec",
   "repository": {
@@ -36,7 +36,8 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "NOTICE"
   ],
   "engines": {
     "node": ">=18"

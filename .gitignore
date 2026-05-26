@@ -6,3 +6,4 @@ packages/*/dist/
 .env.local
 .DS_Store
 tests/evals/eval-results.json
+*.tgz

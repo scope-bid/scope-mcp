@@ -52,7 +52,7 @@ Production. Live since 2026-05-03 on the official Anthropic MCP Registry. Stripe
 
 ## License
 
-License decision pending strategic review. Currently MIT per the published v1.0.1 release; see LICENSE.
+Apache License 2.0. See LICENSE for the full text.
 
 ## Links
 

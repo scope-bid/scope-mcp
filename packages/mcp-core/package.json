@@ -1,8 +1,8 @@
 {
   "name": "@scope-bid/mcp-core",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Shared core for Scope's vertical MCP servers. REST client, auth, base server framework.",
-  "license": "MIT",
+  "license": "Apache-2.0",
   "author": "Jack Gillen <jack@scope.bid>",
   "homepage": "https://scope-bid.vercel.app/mcp",
   "repository": {
@@ -26,7 +26,8 @@
   "files": [
     "dist/",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "NOTICE"
   ],
   "engines": {
     "node": ">=18"

@@ -52,7 +52,7 @@ Preview. V3 production launch 2027. Status / waitlist tools live; write tools (d
 
 ## License
 
-License decision pending strategic review. Currently MIT per the published v1.0.1 release; see LICENSE.
+Apache License 2.0. See LICENSE for the full text.
 
 ## Links
 
