@@ -1,39 +1,67 @@
 # @scope-bid/scope-aec-mcp
 
-> Scope's MCP server for **AEC subcontractor vendor procurement**. **Preview** - V3 launches 2027.
+> Open source MCP server for construction subcontractor procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) dispatch AEC subcontractors and return live anonymized quotes.
 
-Reserves the npm namespace and the MCP registry listing for Scope's V3 vertical: the cross-platform plumbing layer for general contractor subcontractor procurement. Connects BuildingConnected (bid management), TradeTapp + ISN/Avetta (pre-qualification), Procore (project management), and myCOI (insurance tracking) - the layer that doesn't exist between them today.
+Third of three vertical-services MCP servers from Scope. Listed in Anthropic's official MCP Registry at `bid.scope/aec`.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Status](https://img.shields.io/badge/Status-Preview-orange)](https://scope-bid.vercel.app/mcp/aec)
+[Live demo](https://scope.bid) · [MCP Registry listing](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) · [Platform](https://scope.bid)
 
-## Current tools (preview)
+## What it does
 
-- `scope_aec_status` - returns roadmap, expected launch, planned categories
-- `scope_aec_categories` - list of V3 service categories (subcontractor prequal, specialty trade bids, COI tracking, safety compliance, performance bonds)
-- `scope_aec_join_waitlist` - register interest from inside any AI workflow
+A general contractor or estimator types into their AI:
 
-## Install (preview)
+> "I need a concrete sub for the Houston warehouse project, 50k sf, June start."
 
-```json
-{
-  "mcpServers": {
-    "scope-aec": {
-      "command": "npx",
-      "args": ["-y", "@scope-bid/scope-aec-mcp"]
-    }
-  }
-}
+Scope dispatches the request to qualified subcontractors across the trade. Anonymized quotes come back in seconds with prequal, bonding, safety, mobilize, and bid fields. The GC awards one. The sub accepts, mobilizes, delivers. All inside the same AI conversation.
+
+Losing subs see the anonymized winning bid amount, their delta, and the timeline gap if applicable. The winning sub's identity is not disclosed.
+
+## Categories supported
+
+Subcontractor dispatch (every trade), subcontractor prequalification (cross-platform: ISN, Avetta, TradeTapp, Veriforce), bonding capacity verification, certificate-of-insurance validation, OSHA / EMR safety record pull.
+
+Categories not yet API-integrated are routed to verified partner subs with a 24-hour confirmation SLA.
+
+## Install
+
+```bash
+npm install @scope-bid/scope-aec-mcp
 ```
 
-No token required for preview tools. Full dispatch tools land at v1.0.0 when V3 ships.
+Or connect via the official MCP Registry:
 
-## Roadmap
+```
+bid.scope/aec
+```
 
-- **v0.1.0** (now) - preview: status, categories, waitlist
-- **v1.0.0** (2027) - full GC-side subcontractor dispatch with cross-platform integration into Procore + BuildingConnected + ISN/Avetta + myCOI
-- **Sister packages**: `@scope-bid/scope-mcp` (legal, live), `@scope-bid/scope-claims-mcp` (claims, preview)
+## How it works
+
+This package is the open-source SDK layer. The marketplace platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles sub dispatch, the anonymized auction, payment, and the audit trail.
+
+The buyer (GC) pays a per-dispatch fee or a percentage of awarded contract value (industry-standard AEC pricing). Subs pay zero take rate. The pricing model matches AEC procurement convention rather than forcing the legal-vertical model onto construction.
+
+## Configuration
+
+Most users connect this MCP server via their AI client's MCP configuration. No API key is required for the AI provider (you use the AI you already pay for). Scope manages its own marketplace authentication.
+
+See the [scope.bid install guide](https://scope.bid/install) for the exact configuration steps for Claude, Cowork, ChatGPT, Microsoft Copilot, and Cursor.
+
+## Status
+
+Preview. V3 production launch 2027. Status / waitlist tools live; write tools (dispatch, award, payout) ship as part of the V3 production cutover. Cross-platform integrations with ISN, Avetta, TradeTapp, Veriforce, BuildingConnected, Procore on the roadmap.
 
 ## License
 
-MIT
+License decision pending strategic review. Currently MIT per the published v1.0.1 release; see LICENSE.
+
+## Links
+
+- Website: https://scope.bid
+- MCP Registry: https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope
+- npm: https://www.npmjs.com/package/@scope-bid/scope-aec-mcp
+- GitHub org: https://github.com/scope-bid
+- Press: https://scope.bid/press
+
+## Built by
+
+Jack Gillen. [@scope-bid](https://github.com/scope-bid) on GitHub. jack@scope.bid.
