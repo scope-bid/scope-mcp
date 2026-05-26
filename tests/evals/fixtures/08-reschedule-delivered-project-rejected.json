@@ -1,0 +1,20 @@
+{
+  "name": "reschedule-delivered-project-rejected",
+  "input": {
+    "user_message": "Reschedule project PJ-2032 to June 20.",
+    "matter_context": {
+      "project_id": "PJ-2032",
+      "project_status": "vendor_marked_complete"
+    }
+  },
+  "expected_tool_calls": [
+    {
+      "tool": "scope_reschedule_project",
+      "args_must_contain": {
+        "project_id": "PJ-2032"
+      }
+    }
+  ],
+  "response_must_contain": ["delivered", "PJ-2032"],
+  "response_must_not_contain": ["rescheduled to", "matched", "recommended", "—", "–"]
+}

@@ -17,7 +17,7 @@
 import { createScopeServer, startHttpGateway } from "@scope-bid/mcp-core";
 import { z } from "zod";
 
-const SERVER_VERSION = "1.0.1";
+const SERVER_VERSION = "1.0.3";
 
 const server = createScopeServer({
   vertical: "legal",
@@ -141,6 +141,52 @@ server.registerTool(
       bid_window_minutes: 60 * 24 * 2, // 2-day window
       org_slug: server.api.getOrgSlug() || undefined,
     });
+  },
+);
+
+// ----------------------------------------------------------------------------
+// Reschedule
+// ----------------------------------------------------------------------------
+//
+// scope_reschedule_project: thin wrapper around PATCH /api/projects/[id]/
+// reschedule on scope.bid. The platform owns state - the SDK proxies the
+// call and surfaces the structured response. Allowed source state is
+// projects.status = 'active' only; finalized states return typed errors.
+
+const RescheduleProjectInput = z.object({
+  project_id: z.string().describe("Project id (PJ-XXXX or uuid)"),
+  new_date: z.string().describe("New scheduled date, ISO 8601"),
+  new_duration_minutes: z.number().int().positive().optional(),
+  reason: z.string().optional(),
+});
+
+server.registerTool(
+  {
+    name: "scope_reschedule_project",
+    description:
+      "Reschedule an already-awarded project to a new date. Use only when the project is in an active engagement state (post-award, pre-delivery). Returns the confirmed new slot and whether the vendor was notified.",
+    inputSchema: {
+      type: "object",
+      required: ["project_id", "new_date"],
+      properties: {
+        project_id: { type: "string" },
+        new_date: { type: "string" },
+        new_duration_minutes: { type: "integer", minimum: 1 },
+        reason: { type: "string" },
+      },
+      additionalProperties: false,
+    },
+  },
+  async (rawArgs) => {
+    const args = RescheduleProjectInput.parse(rawArgs);
+    return server.api.patch(
+      `/api/projects/${encodeURIComponent(args.project_id)}/reschedule`,
+      {
+        new_date: args.new_date,
+        new_duration_minutes: args.new_duration_minutes,
+        reason: args.reason,
+      },
+    );
   },
 );
 

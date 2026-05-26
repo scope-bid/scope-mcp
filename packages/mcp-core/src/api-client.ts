@@ -35,8 +35,12 @@ export class ScopeApiClient {
     return this.request<T>("POST", path, body);
   }
 
+  async patch<T>(path: string, body?: unknown): Promise<T> {
+    return this.request<T>("PATCH", path, body);
+  }
+
   private async request<T>(
-    method: "GET" | "POST",
+    method: "GET" | "POST" | "PATCH",
     path: string,
     body?: unknown,
   ): Promise<T> {

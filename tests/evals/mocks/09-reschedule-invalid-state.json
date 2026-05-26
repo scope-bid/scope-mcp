@@ -1,0 +1,16 @@
+{
+  "tool_calls": [
+    {
+      "tool": "scope_reschedule_project",
+      "args": {
+        "project_id": "PJ-2018",
+        "new_date": "2026-06-12T14:00:00Z"
+      },
+      "result": {
+        "success": false,
+        "error": "project_cancelled"
+      }
+    }
+  ],
+  "response_text": "Project PJ-2018 has been cancelled and cannot be rescheduled. The engagement is closed. If you want to restart this work, open a new dispatch and we will run a fresh anonymized quote round."
+}

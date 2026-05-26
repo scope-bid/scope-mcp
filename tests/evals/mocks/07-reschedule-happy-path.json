@@ -1,0 +1,19 @@
+{
+  "tool_calls": [
+    {
+      "tool": "scope_reschedule_project",
+      "args": {
+        "project_id": "PJ-2041",
+        "new_date": "2026-06-15T10:00:00Z",
+        "reason": "New conflict on the original date"
+      },
+      "result": {
+        "success": true,
+        "new_confirmed_slot": "2026-06-15T10:00:00Z",
+        "vendor_notified": true,
+        "audit_log_id": "00000000-0000-0000-0000-00000000a071"
+      }
+    }
+  ],
+  "response_text": "Project PJ-2041 rescheduled to June 15, 2026 at 10:00 UTC. The vendor was notified by email and will confirm via the portal. The previous date (June 5) has been replaced; the audit trail row is logged."
+}

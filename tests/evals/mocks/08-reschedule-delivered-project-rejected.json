@@ -1,0 +1,16 @@
+{
+  "tool_calls": [
+    {
+      "tool": "scope_reschedule_project",
+      "args": {
+        "project_id": "PJ-2032",
+        "new_date": "2026-06-20T14:00:00Z"
+      },
+      "result": {
+        "success": false,
+        "error": "project_already_delivered"
+      }
+    }
+  ],
+  "response_text": "Project PJ-2032 cannot be rescheduled - the vendor already delivered the work. Reschedule does not apply to closed engagements. If you need follow-on work, I can open a new dispatch instead."
+}

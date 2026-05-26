@@ -1,0 +1,22 @@
+{
+  "name": "reschedule-happy-path",
+  "input": {
+    "user_message": "Reschedule project PJ-2041 to June 15, 2026 at 10am UTC. New conflict on the original date.",
+    "matter_context": {
+      "project_id": "PJ-2041",
+      "project_status": "active",
+      "previous_scheduled_at": "2026-06-05T14:00:00Z"
+    }
+  },
+  "expected_tool_calls": [
+    {
+      "tool": "scope_reschedule_project",
+      "args_must_contain": {
+        "project_id": "PJ-2041",
+        "new_date": "2026-06-15T10:00:00Z"
+      }
+    }
+  ],
+  "response_must_contain": ["rescheduled", "June 15", "vendor"],
+  "response_must_not_contain": ["matched", "recommended", "—", "–"]
+}

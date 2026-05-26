@@ -1,0 +1,20 @@
+{
+  "name": "reschedule-invalid-state",
+  "input": {
+    "user_message": "Reschedule project PJ-2018 to next Friday.",
+    "matter_context": {
+      "project_id": "PJ-2018",
+      "project_status": "cancelled"
+    }
+  },
+  "expected_tool_calls": [
+    {
+      "tool": "scope_reschedule_project",
+      "args_must_contain": {
+        "project_id": "PJ-2018"
+      }
+    }
+  ],
+  "response_must_contain": ["cancelled", "PJ-2018"],
+  "response_must_not_contain": ["rescheduled to", "matched", "recommended", "—", "–"]
+}
