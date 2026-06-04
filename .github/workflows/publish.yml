@@ -86,6 +86,50 @@ jobs:
         working-directory: packages/scope-aec-mcp
         run: npm publish --provenance --access public
 
+      # ---- MCP Registry --------------------------------------------------
+      # npm (above) and the MCP Registry are two separate systems. Keeping the
+      # registry submission in this same tag-triggered job is what makes them
+      # publish together, so they can never drift the way they did between
+      # 1.0.1 and 1.0.3 (npm moved, registry did not).
+      #
+      # The bid.scope namespace is reverse-DNS; the verified domain is
+      # scope.bid. Auth is an ed25519 private key in hex, stored as the
+      # BID_SCOPE_KEY repo secret. mcp-core has no server.json (internal dep,
+      # not a published namespace), so only the three verticals are submitted.
+
+      - name: Sync server.json versions from package.json
+        # Source of truth for the published version is package.json (the tag).
+        # Rewrite each server.json's version + package pin to match, so the
+        # registry submission always matches what npm just published even if a
+        # server.json bump was forgotten.
+        run: |
+          for pkg in scope-mcp scope-claims-mcp scope-aec-mcp; do
+            v=$(node -p "require('./packages/$pkg/package.json').version")
+            tmp=$(mktemp)
+            jq --arg v "$v" '.version = $v | .packages[0].version = $v' \
+              "packages/$pkg/server.json" > "$tmp" && mv "$tmp" "packages/$pkg/server.json"
+            echo "$pkg server.json -> $v"
+          done
+
+      - name: Install mcp-publisher
+        run: |
+          curl -sSL "https://github.com/modelcontextprotocol/registry/releases/download/v1.7.9/mcp-publisher_linux_amd64.tar.gz" -o mcp-publisher.tar.gz
+          tar xzf mcp-publisher.tar.gz mcp-publisher
+          chmod +x mcp-publisher
+          ./mcp-publisher --version
+
+      - name: Authenticate to the MCP Registry (DNS, scope.bid)
+        run: |
+          ./mcp-publisher login dns \
+            --domain scope.bid \
+            --private-key "${{ secrets.BID_SCOPE_KEY }}"
+
+      - name: Publish server.json to the MCP Registry
+        run: |
+          ./mcp-publisher publish packages/scope-mcp/server.json
+          ./mcp-publisher publish packages/scope-claims-mcp/server.json
+          ./mcp-publisher publish packages/scope-aec-mcp/server.json
+
       - name: Summary
         run: |
           echo "Published packages:" >> $GITHUB_STEP_SUMMARY
@@ -95,3 +139,4 @@ jobs:
           echo "- @scope-bid/scope-aec-mcp@$(node -p "require('./packages/scope-aec-mcp/package.json').version")" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "All published with sigstore provenance attestations." >> $GITHUB_STEP_SUMMARY
+          echo "Registry: bid.scope/{legal,claims,aec} submitted at the same version." >> $GITHUB_STEP_SUMMARY
