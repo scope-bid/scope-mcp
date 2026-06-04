@@ -121,6 +121,10 @@ npm run eval:live
 
 Add a new scenario any time a tool or skill ships that creates a new failure mode. Fixtures live in `tests/evals/fixtures/`, mocked tool responses in `tests/evals/mocks/`, runner in `tests/evals/runner.ts`. CI runs the mocked harness on every PR via `.github/workflows/eval.yml`.
 
+## Version bumps
+
+When updating package.json version in any package directory, also update the matching server.json version. CI auto-syncs as a safety net but committed files should stay aligned for repo hygiene and local-publish testing.
+
 ## Company
 
 Scope Bid, Inc. is a Delaware C-corp founded May 2026 by Jack Gillen. San Diego, CA. Patent pending.
