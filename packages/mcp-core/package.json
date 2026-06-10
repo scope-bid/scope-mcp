@@ -1,6 +1,6 @@
 {
   "name": "@scope-bid/mcp-core",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Shared core for Scope's vertical MCP servers. REST client, auth, base server framework.",
   "license": "Apache-2.0",
   "author": "Jack Gillen <jack@scope.bid>",

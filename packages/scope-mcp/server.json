@@ -3,7 +3,7 @@
   "name": "bid.scope/legal",
   "title": "Scope (Legal)",
   "description": "Dispatch litigation work to legal-services vendors from any MCP-compatible AI workflow.",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "repository": {
     "url": "https://github.com/scope-bid/scope-mcp",
     "source": "github"
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@scope-bid/scope-mcp",
-      "version": "1.0.4",
+      "version": "1.0.5",
       "transport": {
         "type": "stdio"
       },
