@@ -11,6 +11,7 @@ import {
   type Tool,
 } from "@modelcontextprotocol/sdk/types.js";
 import { ScopeApiClient } from "./api-client.js";
+import { annotateTool } from "./tool-annotations.js";
 import { registerCoreTools } from "./tools.js";
 import type {
   RegisteredTool,
@@ -38,14 +39,18 @@ export function createScopeServer(config: ScopeServerConfig): ScopeServerInstanc
   const api = new ScopeApiClient(config);
   const tools: RegisteredTool[] = [];
 
+  // Single registration choke point: directory-required annotations
+  // (title + readOnlyHint/destructiveHint) merge onto every definition
+  // here, so per-vertical packages inherit them without code changes.
+  // The locked v1.0.4 descriptions are never modified.
   function registerTool(definition: Tool, handler: ToolHandler) {
-    tools.push({ definition, handler });
+    tools.push({ definition: annotateTool(definition), handler });
   }
 
   // Register the cross-vertical core tools by default
   if (config.includeCoreTools !== false) {
     for (const t of registerCoreTools(api)) {
-      tools.push(t);
+      tools.push({ definition: annotateTool(t.definition), handler: t.handler });
     }
   }
 

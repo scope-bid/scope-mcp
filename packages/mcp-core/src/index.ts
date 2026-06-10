@@ -18,6 +18,8 @@ export { createScopeServer } from "./server.js";
 export type { ScopeServerInstance } from "./server.js";
 export { ScopeApiClient } from "./api-client.js";
 export { registerCoreTools } from "./tools.js";
+export { annotateTool, TOOL_ANNOTATIONS } from "./tool-annotations.js";
+export type { ScopeToolAnnotations } from "./tool-annotations.js";
 export { startHttpGateway } from "./http-gateway.js";
 export type { HttpGatewayConfig } from "./http-gateway.js";
 export type {
