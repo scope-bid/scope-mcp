@@ -94,7 +94,9 @@ HTTP endpoints:
 - `SCOPE_API_TOKEN` - bearer token for write operations.
 - `SCOPE_ORG_SLUG` - pin reads and writes to a specific buyer organization. Useful for multi-tenant deployments.
 - `SCOPE_RECEIPT_MANIFEST` - optional. Path to an Action Risk Manifest that turns on the Receipt Required gate (see below). Unset by default.
-- `SCOPE_RECEIPT_TRUSTED_KEYS` - optional. Comma-separated issuer SPKI keys (base64url DER) you accept as receipt issuers. When set, only receipts from those issuers verify; when unset, the gate falls back to the receipt's own inline key so the rail can be exercised before key pinning.
+- `SCOPE_RECEIPT_TRUSTED_KEYS` - optional. Comma-separated issuer SPKI keys (base64url DER) you accept as receipt issuers. **This is the secure, production posture:** when set, only receipts signed by a pinned issuer verify.
+- `SCOPE_RECEIPT_ALLOW_INLINE_KEY` - optional, **non-production only**. Set to `1` to accept a receipt's own inline (self-signed) key, which proves integrity but **not** issuer trust. Leave unset in production and pin `SCOPE_RECEIPT_TRUSTED_KEYS` instead.
+- `SCOPE_RECEIPT_MANIFEST_URL` - optional. The served path of your Action Risk Manifest (e.g. `/.well-known/agent-actions.json`). The `428` challenge advertises this URL **only if set**, so agents are never pointed at a manifest that 404s.
 
 ## Receipt Required (opt-in)
 
@@ -102,9 +104,14 @@ HTTP endpoints:
 
 - **Off by default.** With `SCOPE_RECEIPT_MANIFEST` unset, dispatch behaves exactly as before - no new requirement, no behavior change for existing callers.
 - **Opt in** by pointing `SCOPE_RECEIPT_MANIFEST` at a manifest (see `packages/mcp-core/examples/agent-actions.json`) that marks `scope_dispatch_matter` as `receipt_required`. The tool then requires a verifiable `EP-RECEIPT-v1` receipt - bound to that specific matter - passed as the optional `emilia_receipt` argument, before it posts.
+- **Secure by default / fails closed.** When the gate is on, it accepts only receipts signed by a key you pin in `SCOPE_RECEIPT_TRUSTED_KEYS`. It does **not** accept self-signed (inline-key) receipts by default. If enforcement is on but no trusted key is pinned and the inline opt-in is not set, the dispatch is **refused** - it never runs under an untrusted receipt. Set `SCOPE_RECEIPT_ALLOW_INLINE_KEY=1` to accept inline keys for **non-production demos only**.
 - **Offline.** Verification is Ed25519 over canonical JSON with no network and no backend trusted. Reference implementation: [`@emilia-protocol/require-receipt`](https://www.npmjs.com/package/@emilia-protocol/require-receipt) (Apache-2.0). Spec: `draft-schrock-ep-authorization-receipts`.
 
-A missing or invalid receipt yields a machine-readable `428 Receipt Required` challenge instead of dispatching; a valid receipt is consumed once on success (replay and cross-matter reuse are refused). This is an accountability rail - **not** authentication or permissions. Background: https://www.emiliaprotocol.ai/fire-drill/rr-1
+A missing or invalid receipt yields a machine-readable `428 Receipt Required` challenge instead of dispatching; a valid receipt is consumed once on success (forged and cross-matter reuse are refused).
+
+> **Replay scope.** "Consumed once" holds within the configured consumption store. The **default store is process-local (in-memory)** - it does *not* survive a process restart and does *not* span multiple instances, so a replay could succeed against a fresh process or a sibling instance. For durable / multi-instance one-time consumption, pass a durable `store` (`{ has, add }`, e.g. Redis/DB) to the gate.
+
+This is an accountability rail - **not** authentication or permissions. Background: https://www.emiliaprotocol.ai/fire-drill/rr-1
 
 ## Plugin marketplace alternative
 

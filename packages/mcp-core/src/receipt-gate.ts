@@ -28,13 +28,25 @@ import {
 
 const MANIFEST_PATH = process.env.SCOPE_RECEIPT_MANIFEST ?? "";
 // Comma-separated issuer SPKI keys (base64url DER) the operator trusts. When
-// set, only receipts signed by these issuers verify. When unset, the gate falls
-// back to the receipt's inline key (proves integrity, NOT issuer trust) so the
-// rail can be exercised end-to-end before key pinning is wired up.
+// set, only receipts signed by these issuers verify. This is the SECURE,
+// production posture: pin the issuer key(s) you accept.
 const TRUSTED_KEYS = (process.env.SCOPE_RECEIPT_TRUSTED_KEYS ?? "")
   .split(",")
   .map((k) => k.trim())
   .filter(Boolean);
+// Explicit, NON-PRODUCTION opt-in to accept a receipt's own inline key (proves
+// integrity, NOT issuer trust). Off by default: a self-signed receipt is NOT
+// accepted for this irreversible dispatch unless an operator deliberately turns
+// this on for a demo/dev environment. Production should pin
+// SCOPE_RECEIPT_TRUSTED_KEYS instead and leave this unset.
+const ALLOW_INLINE_KEY = /^(1|true)$/i.test(
+  process.env.SCOPE_RECEIPT_ALLOW_INLINE_KEY ?? "",
+);
+// Only advertise a manifest URL the deployment actually serves. Set
+// SCOPE_RECEIPT_MANIFEST_URL to the served path (e.g.
+// /.well-known/agent-actions.json) so the 428 challenge points agents at a real
+// URL; if unset, no manifest URL is advertised (no dangling 404).
+const MANIFEST_URL = (process.env.SCOPE_RECEIPT_MANIFEST_URL ?? "").trim() || undefined;
 
 let cachedManifest: ActionRiskManifest | null | undefined;
 function loadManifest(): ActionRiskManifest | null {
@@ -61,15 +73,21 @@ function gateFor(req: ActionRequirement): ReceiptGate {
   if (!gate) {
     gate = makeReceiptGate({
       action: req.action_type,
+      // Secure by default: trust only pinned issuer keys. Inline (self-signed)
+      // keys are accepted ONLY under the explicit non-production opt-in. A
+      // misconfigured deployment (enforcement on, no trusted keys, no opt-in)
+      // never reaches here - dispatch() fails closed before constructing a gate.
       trustedKeys: TRUSTED_KEYS,
-      // No pinned issuer keys yet -> accept the receipt's inline key so the rail
-      // is usable immediately. Pin SCOPE_RECEIPT_TRUSTED_KEYS in production.
-      allowInlineKey: TRUSTED_KEYS.length === 0,
+      allowInlineKey: ALLOW_INLINE_KEY,
       maxAgeSec: req.max_age_sec,
       statusCode: RECEIPT_REQUIRED_STATUS,
-      manifestUrl: loadManifest()?.service?.manifest_url,
+      // Advertised only when the operator says the manifest is actually served.
+      ...(MANIFEST_URL ? { manifestUrl: MANIFEST_URL } : {}),
       assuranceClass: req.assurance_class,
-      // store: pass a durable { has, add } for restart/multi-instance one-time use.
+      // NOTE: the default one-time-consumption store is process-local
+      // (in-memory). It does NOT survive a restart and does NOT span multiple
+      // instances. For durable / multi-instance replay protection, pass a
+      // durable { has, add } store here (Redis/DB).
     });
     gates.set(req.action_type, gate);
   }
@@ -108,16 +126,33 @@ export async function withReceiptGate<T>(
     return dispatch();
   }
 
+  // FAIL CLOSED: enforcement is on for this irreversible dispatch but no issuer
+  // key is trusted and inline keys are not explicitly opted in. Refuse rather
+  // than run the dispatch under a self-signed (untrusted) receipt. Pin
+  // SCOPE_RECEIPT_TRUSTED_KEYS (production), or set
+  // SCOPE_RECEIPT_ALLOW_INLINE_KEY=1 for non-production demos only.
+  if (TRUSTED_KEYS.length === 0 && !ALLOW_INLINE_KEY) {
+    throw new Error(
+      `scope_dispatch_matter receipt enforcement is misconfigured: ` +
+        `Receipt Required is on but no trusted issuer key is pinned. ` +
+        `Set SCOPE_RECEIPT_TRUSTED_KEYS to the issuer key(s) you trust, or ` +
+        `SCOPE_RECEIPT_ALLOW_INLINE_KEY=1 for non-production demos only. ` +
+        `Refusing to dispatch under an untrusted self-signed receipt.`,
+    );
+  }
+
   const r = await gateFor(req).run(receipt, { target }, async () => dispatch());
   if (r.ok) {
     return r.result as T;
   }
 
   const reason = r.body?.rejected?.reason ?? "missing_receipt";
+  // Point at the manifest URL only if the operator advertised a served one;
+  // otherwise refer to the action manifest generically (no dangling 404).
   throw new Error(
     `scope_dispatch_matter requires a verifiable authorization receipt ` +
       `(${RECEIPT_REQUIRED_STATUS} Receipt Required: ${reason}). ` +
       `Obtain an EP-RECEIPT-v1 for this matter and resend it as the ` +
-      `"emilia_receipt" argument. See ${manifest?.service?.manifest_url ?? "the action manifest"}.`,
+      `"emilia_receipt" argument. See ${MANIFEST_URL ?? "the action manifest"}.`,
   );
 }
