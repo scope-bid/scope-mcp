@@ -8,6 +8,7 @@
 
 import { z } from "zod";
 import { ScopeApiClient } from "./api-client.js";
+import { withReceiptGate } from "./receipt-gate.js";
 import type { RegisteredTool } from "./types.js";
 
 const ListCategoriesInput = z.object({}).strict();
@@ -46,6 +47,10 @@ const DispatchMatterInput = z
       .max(60 * 24 * 7)
       .optional()
       .default(60 * 24 * 4),
+    // Optional EP-RECEIPT-v1 authorization receipt. Ignored unless an operator
+    // opts in via SCOPE_RECEIPT_MANIFEST (see receipt-gate.ts); harmless when
+    // absent, so existing callers are unaffected.
+    emilia_receipt: z.unknown().optional(),
   })
   .strict();
 
@@ -133,6 +138,10 @@ export function registerCoreTools(api: ScopeApiClient): RegisteredTool[] {
               maximum: 10080,
               default: 5760,
             },
+            emilia_receipt: {
+              description:
+                "Optional EP-RECEIPT-v1 authorization receipt. Only required if this deployment opts in to Receipt Required (SCOPE_RECEIPT_MANIFEST); ignored otherwise.",
+            },
           },
           additionalProperties: false,
         },
@@ -144,19 +153,35 @@ export function registerCoreTools(api: ScopeApiClient): RegisteredTool[] {
           );
         }
         const args = DispatchMatterInput.parse(rawArgs);
-        return api.post("/api/scopes", {
-          title: args.title,
-          matter_type: args.matter_type,
-          service_category: args.service_category,
-          jurisdictions: args.jurisdictions ?? [],
-          description: args.description,
-          must_haves: args.must_haves ?? [],
-          budget_min: args.budget_min,
-          budget_max: args.budget_max,
-          target_kickoff: args.target_kickoff,
-          bid_window_minutes: args.bid_window_minutes,
-          org_slug: api.getOrgSlug() || undefined,
-        });
+        // Optional, opt-in Receipt Required gate. No-op (passes straight
+        // through) unless the operator configures SCOPE_RECEIPT_MANIFEST. The
+        // receipt is bound to THIS matter so it cannot authorize a different
+        // dispatch. See receipt-gate.ts.
+        const receiptTarget = [
+          args.title,
+          args.matter_type,
+          args.service_category,
+          (args.jurisdictions ?? []).join("+"),
+        ].join("|");
+        return withReceiptGate(
+          "scope_dispatch_matter",
+          receiptTarget,
+          args.emilia_receipt,
+          () =>
+            api.post("/api/scopes", {
+              title: args.title,
+              matter_type: args.matter_type,
+              service_category: args.service_category,
+              jurisdictions: args.jurisdictions ?? [],
+              description: args.description,
+              must_haves: args.must_haves ?? [],
+              budget_min: args.budget_min,
+              budget_max: args.budget_max,
+              target_kickoff: args.target_kickoff,
+              bid_window_minutes: args.bid_window_minutes,
+              org_slug: api.getOrgSlug() || undefined,
+            }),
+        );
       },
     },
     {

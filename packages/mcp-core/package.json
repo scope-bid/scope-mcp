@@ -25,6 +25,7 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/",
+    "examples/",
     "README.md",
     "LICENSE",
     "NOTICE"
@@ -37,6 +38,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
+    "@emilia-protocol/require-receipt": "^0.4.1",
     "@modelcontextprotocol/sdk": "^1.0.0",
     "zod": "^3.23.0"
   },

@@ -93,6 +93,18 @@ HTTP endpoints:
 - `SCOPE_API_BASE` - override the default API base. Defaults to `https://scope.bid`.
 - `SCOPE_API_TOKEN` - bearer token for write operations.
 - `SCOPE_ORG_SLUG` - pin reads and writes to a specific buyer organization. Useful for multi-tenant deployments.
+- `SCOPE_RECEIPT_MANIFEST` - optional. Path to an Action Risk Manifest that turns on the Receipt Required gate (see below). Unset by default.
+- `SCOPE_RECEIPT_TRUSTED_KEYS` - optional. Comma-separated issuer SPKI keys (base64url DER) you accept as receipt issuers. When set, only receipts from those issuers verify; when unset, the gate falls back to the receipt's own inline key so the rail can be exercised before key pinning.
+
+## Receipt Required (opt-in)
+
+`scope_dispatch_matter` irreversibly posts a budgeted matter to external vendors. Today its only precondition is an `SCOPE_API_TOKEN` check. For deployments that want a named human to accountably authorize each dispatch, this package ships an **opt-in, off-by-default** authorization-receipt gate in front of that one action.
+
+- **Off by default.** With `SCOPE_RECEIPT_MANIFEST` unset, dispatch behaves exactly as before - no new requirement, no behavior change for existing callers.
+- **Opt in** by pointing `SCOPE_RECEIPT_MANIFEST` at a manifest (see `packages/mcp-core/examples/agent-actions.json`) that marks `scope_dispatch_matter` as `receipt_required`. The tool then requires a verifiable `EP-RECEIPT-v1` receipt - bound to that specific matter - passed as the optional `emilia_receipt` argument, before it posts.
+- **Offline.** Verification is Ed25519 over canonical JSON with no network and no backend trusted. Reference implementation: [`@emilia-protocol/require-receipt`](https://www.npmjs.com/package/@emilia-protocol/require-receipt) (Apache-2.0). Spec: `draft-schrock-ep-authorization-receipts`.
+
+A missing or invalid receipt yields a machine-readable `428 Receipt Required` challenge instead of dispatching; a valid receipt is consumed once on success (replay and cross-matter reuse are refused). This is an accountability rail - **not** authentication or permissions. Background: https://www.emiliaprotocol.ai/fire-drill/rr-1
 
 ## Plugin marketplace alternative
 
