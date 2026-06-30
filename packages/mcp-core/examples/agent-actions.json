@@ -1,0 +1,20 @@
+{
+  "@version": "EP-ACTION-RISK-MANIFEST-v0.1",
+  "service": {
+    "name": "scope",
+    "manifest_url": "/.well-known/agent-actions.json"
+  },
+  "actions": [
+    {
+      "id": "mcp.scope_dispatch_matter",
+      "description": "Irreversible: posts a budgeted matter to external vendors and engages them. Requires a named human's authorization receipt bound to this specific matter.",
+      "match": { "protocol": "mcp", "tool": "scope_dispatch_matter" },
+      "action_type": "matter.dispatch.v1",
+      "risk": "high",
+      "receipt_required": true,
+      "assurance_class": "class_a",
+      "max_age_sec": 900,
+      "quorum": { "required": false }
+    }
+  ]
+}
