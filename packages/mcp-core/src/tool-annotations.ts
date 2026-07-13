@@ -40,6 +40,8 @@ export const TOOL_ANNOTATIONS: Record<string, ScopeToolAnnotations> = {
   scope_dispatch_matter: writeAdditive("Dispatch a matter to vendors"),
   scope_get_matter: read("Get matter status and quotes"),
   scope_list_matters: read("List the firm's matters"),
+  scope_get_messages: read("Read the matter thread"),
+  scope_send_message: writeAdditive("Post to the matter thread"),
 
   // Shared per-vertical write
   scope_reschedule_project: writeDestructive("Reschedule a booked project"),

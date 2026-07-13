@@ -18,7 +18,7 @@
 import { createScopeServer, startHttpGateway } from "@scope-bid/mcp-core";
 import { z } from "zod";
 
-const SERVER_VERSION = "1.0.3";
+const SERVER_VERSION = "1.0.6";
 
 const server = createScopeServer({
   vertical: "aec",

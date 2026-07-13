@@ -3,7 +3,7 @@
   "name": "bid.scope/claims",
   "title": "Scope (Claims) - Preview",
   "description": "Insurance claims-side vendor procurement (IMEs, IA, surveillance). Preview - V2 launches Q3 2026.",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "repository": {
     "url": "https://github.com/scope-bid/scope-mcp",
     "source": "github"
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@scope-bid/scope-claims-mcp",
-      "version": "1.0.5",
+      "version": "1.0.6",
       "transport": {
         "type": "stdio"
       }

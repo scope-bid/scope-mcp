@@ -1,6 +1,6 @@
 {
   "name": "@scope-bid/scope-mcp",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "mcpName": "bid.scope/legal",
   "description": "MCP server for Scope.bid legal vendor dispatch. Hire court reporters, IMEs, records, experts, e-discovery, and more through your AI assistant.",
   "license": "Apache-2.0",
