@@ -44,7 +44,7 @@ server.registerTool(
   {
     name: "scope_book_deposition",
     description:
-      "Convenience tool for booking a deposition. Wraps scope_dispatch_matter with the court-reporting service category and structured deposition fields. Returns matter id and bid window.",
+      "Convenience tool for booking a deposition. Wraps scope_dispatch_matter with the court-reporting service category and structured deposition fields, and inherits its approval rule: the booking parks as a pending approval and a person at the firm must approve it before any money is committed. Returns matter id and dispatch status.",
     inputSchema: {
       type: "object",
       required: ["witness_name", "date", "location"],
@@ -107,7 +107,7 @@ server.registerTool(
   {
     name: "scope_request_records",
     description:
-      "Convenience tool for ordering records retrieval. Wraps scope_dispatch_matter with the records-retrieval service category and structured custodian fields. Returns matter id and bid window.",
+      "Convenience tool for ordering records retrieval. Wraps scope_dispatch_matter with the records-retrieval service category and structured custodian fields, and inherits its approval rule: the order parks as a pending approval and a person at the firm must approve it before any money is committed. Returns matter id and dispatch status.",
     inputSchema: {
       type: "object",
       required: [

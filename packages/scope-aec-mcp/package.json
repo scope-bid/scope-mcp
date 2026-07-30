@@ -1,6 +1,6 @@
 {
   "name": "@scope-bid/scope-aec-mcp",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "mcpName": "bid.scope/aec",
   "description": "MCP server for Scope.bid AEC vendor dispatch. Subcontractor prequal, bonding, safety, dispatch through your AI assistant.",
   "license": "Apache-2.0",

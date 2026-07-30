@@ -54,6 +54,21 @@ export function createScopeServer(config: ScopeServerConfig): ScopeServerInstanc
     }
   }
 
+  // Instructions travel on initialize so a client knows the two facts
+  // that govern every tool here before it calls one: nothing commits the
+  // firm to payment without a person at the firm approving it, and a
+  // demo token returns labeled sample data. Mirrors the HTTP transport's
+  // initialize instructions so npm and HTTP tell the same story.
+  const token = process.env.SCOPE_API_TOKEN ?? "";
+  const demoMode = !token || token.startsWith("scope_pk_demo");
+  const instructions = [
+    demoMode
+      ? "This Scope connection is running without a firm API token, so tools that read return representative sample data labeled as such, and nothing here dispatches real work, engages a professional, or moves money."
+      : "This Scope connection uses the firm's API token.",
+    "APPROVAL FLOOR: a dispatch or award requested through these tools never commits the firm to payment by itself. It parks as a pending approval and a person at the firm must approve it before any money is committed. No firm setting, threshold or policy removes that floor.",
+    "PAYMENT: awards settle as a Stripe invoice issued to the firm when the matter completes. No card is captured and no payment method is collected inside this conversation.",
+  ].join(" ");
+
   const server = new Server(
     {
       name: config.serverName,
@@ -61,6 +76,7 @@ export function createScopeServer(config: ScopeServerConfig): ScopeServerInstanc
     },
     {
       capabilities: { tools: {} },
+      instructions,
     },
   );
 
