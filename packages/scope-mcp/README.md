@@ -12,9 +12,7 @@ A lawyer or paralegal types into their AI:
 
 > "I need a court reporter for the Sarah Chen deposition on June 15 at our Oakland office. Plaintiff PI matter."
 
-Scope dispatches the request to integrated vendors across the category. Anonymized quotes come back in seconds. The buyer awards one. The vendor accepts, mobilizes, delivers. All inside the same AI conversation.
-
-Losing vendors see the anonymized winning bid amount, their delta, and the timeline gap if applicable. The winning vendor's identity is not disclosed.
+Scope returns the standing rate-card prices of credentialed professionals in the category, under their own names, in seconds. A person at the firm approves before anything commits - an agent-requested dispatch parks as a pending approval, and no firm setting removes that step. Once approved, the professional accepts, mobilizes, delivers. All inside the same AI conversation.
 
 ## Categories supported
 
@@ -36,9 +34,9 @@ bid.scope/legal
 
 ## How it works
 
-This package is the open-source SDK layer. The marketplace platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles vendor dispatch, the anonymized auction, payment via Stripe Connect, and the audit trail.
+This package is the open-source SDK layer. The platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles dispatch at published rate-card prices, human approval on every commitment, payment via Stripe Connect, and the audit trail.
 
-The buyer (firm or in-house counsel) pays zero platform fees. Vendors compete on price for each dispatch. Scope's revenue is a take rate on awarded matters, paid by the awarded vendor.
+The buyer (firm or in-house counsel) pays zero platform fees. Professionals publish their own prices - the same price no matter who is asking. Scope's revenue is a flat 10 percent on completed work, paid by the professional.
 
 ## Configuration
 
@@ -48,7 +46,7 @@ See the [scope.bid install guide](https://scope.bid/install) for the exact confi
 
 ## Status
 
-Production. Live since 2026-05-03 on the official Anthropic MCP Registry. Stripe Connect for payments. Anonymized auction with post-award feedback to losing vendors.
+In limited release. On the official Anthropic MCP Registry since 2026-05-03; the whole loop runs in demo today, and real dispatches are opening to design partner firms. Stripe Connect for payments. Rate-card pricing with human approval on every commitment.
 
 ## License
 

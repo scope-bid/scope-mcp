@@ -82,7 +82,7 @@ HTTP endpoints:
 - `scope_get_matter`, `scope_list_matters`, `scope_list_categories`, `scope_list_vendors`, `scope_list_roster`
 - `scope_set_vendor_tier`, `scope_remove_from_roster`, `scope_award_matter`
 - `scope_roster_audit`, `scope_vendor_health`, `scope_spend_rollup`, `scope_credential_alerts`
-- `swp_propose`, `swp_clarify`, `swp_bid`, `swp_counter`, `swp_accept`, `swp_refine`, `swp_reject`, `swp_session_status` - Scope Work Protocol negotiation primitives
+- `swp_clarify`, `swp_accept`, `swp_reject`, `swp_session_status` - Scope Work Protocol tools for existing negotiation sessions (the session-opening tools were retired at the rate-card cutover and are no longer served)
 
 **Claims** (`bid.scope/claims`): IME routing, surveillance coordination, defense medical record review, life-care planning, voc rehab routing, roster audit, credential alerts.
 
