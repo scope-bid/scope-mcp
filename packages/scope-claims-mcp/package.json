@@ -1,6 +1,6 @@
 {
   "name": "@scope-bid/scope-claims-mcp",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "mcpName": "bid.scope/claims",
   "description": "MCP server for Scope.bid insurance claims vendor dispatch. IMEs, surveillance, peer review, life-care plans, voc rehab through your AI assistant.",
   "license": "Apache-2.0",

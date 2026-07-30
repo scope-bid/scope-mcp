@@ -1,6 +1,6 @@
 # @scope-bid/scope-claims-mcp
 
-> Open source MCP server for claims-side vendor procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) dispatch claims vendors and return live anonymized quotes.
+> Open source MCP server for claims-side vendor procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) engage claims professionals at published rate-card prices, with a person at the carrier or firm approving before anything commits.
 
 Second of three vertical-services MCP servers from Scope. Listed in Anthropic's official MCP Registry at `bid.scope/claims`.
 
@@ -12,9 +12,7 @@ A claims adjuster or defense paralegal types into their AI:
 
 > "I need an IME panel examiner for claimant John Doe in Phoenix, June 15."
 
-Scope dispatches the request to integrated vendors across the category. Anonymized quotes come back in seconds. The buyer awards one. The vendor accepts, schedules the exam, delivers the report. All inside the same AI conversation.
-
-Losing vendors see the anonymized winning bid amount, their delta, and the timeline gap if applicable. The winning vendor's identity is not disclosed.
+Scope returns the standing rate-card prices of credentialed professionals in the category, under their own names, in seconds. A person on the buyer side approves before anything commits. Once approved, the professional accepts, schedules the exam, delivers the report. All inside the same AI conversation.
 
 ## Categories supported
 
@@ -36,7 +34,7 @@ bid.scope/claims
 
 ## How it works
 
-This package is the open-source SDK layer. The marketplace platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles vendor dispatch, the anonymized auction, payment via Stripe Connect, and the audit trail.
+This package is the open-source SDK layer. The marketplace platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles dispatch at published rate-card prices, human approval on every commitment, payment via Stripe Connect, and the audit trail.
 
 The buyer (carrier or defense firm) pays zero platform fees. Vendors compete on price for each dispatch. Scope's revenue is a take rate on awarded matters, paid by the awarded vendor.
 

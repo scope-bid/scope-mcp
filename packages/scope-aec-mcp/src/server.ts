@@ -18,7 +18,11 @@
 import { createScopeServer, startHttpGateway } from "@scope-bid/mcp-core";
 import { z } from "zod";
 
-const SERVER_VERSION = "1.0.6";
+import { createRequire } from "node:module";
+// Read at runtime from package.json so serverInfo can never drift
+// from the published version again (it sat at a stale hardcoded
+// string for two releases).
+const SERVER_VERSION: string = createRequire(import.meta.url)("../package.json").version;
 
 const server = createScopeServer({
   vertical: "aec",

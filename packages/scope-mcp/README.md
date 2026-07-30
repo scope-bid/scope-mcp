@@ -1,6 +1,6 @@
 # @scope-bid/scope-mcp
 
-> Open source MCP server for legal vendor procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) dispatch legal vendors and return live anonymized quotes.
+> Open source MCP server for legal vendor procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) engage legal professionals at their published rate-card prices, with a person at the firm approving before anything commits.
 
 First vertical-services MCP server published to Anthropic's official MCP Registry. Live since 2026-05-03 at `bid.scope/legal`.
 

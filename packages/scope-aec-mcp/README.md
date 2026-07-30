@@ -1,6 +1,6 @@
 # @scope-bid/scope-aec-mcp
 
-> Open source MCP server for construction subcontractor procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) dispatch AEC subcontractors and return live anonymized quotes.
+> Open source MCP server for construction subcontractor procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) engage AEC subcontractors at published prices, with a person on the GC side approving before anything commits.
 
 Third of three vertical-services MCP servers from Scope. Listed in Anthropic's official MCP Registry at `bid.scope/aec`.
 
@@ -12,9 +12,7 @@ A general contractor or estimator types into their AI:
 
 > "I need a concrete sub for the Houston warehouse project, 50k sf, June start."
 
-Scope dispatches the request to qualified subcontractors across the trade. Anonymized quotes come back in seconds with prequal, bonding, safety, mobilize, and bid fields. The GC awards one. The sub accepts, mobilizes, delivers. All inside the same AI conversation.
-
-Losing subs see the anonymized winning bid amount, their delta, and the timeline gap if applicable. The winning sub's identity is not disclosed.
+Scope returns qualified subcontractors across the trade with prequal, bonding, safety and mobilize fields, at published prices, in seconds. A person on the GC side approves before anything commits. Once approved, the sub accepts, mobilizes, delivers. All inside the same AI conversation.
 
 ## Categories supported
 
@@ -36,7 +34,7 @@ bid.scope/aec
 
 ## How it works
 
-This package is the open-source SDK layer. The marketplace platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles sub dispatch, the anonymized auction, payment, and the audit trail.
+This package is the open-source SDK layer. The marketplace platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles sub dispatch at published prices, human approval on every commitment, payment, and the audit trail.
 
 The buyer (GC) pays a per-dispatch fee or a percentage of awarded contract value (industry-standard AEC pricing). Subs pay zero take rate. The pricing model matches AEC procurement convention rather than forcing the legal-vertical model onto construction.
 
