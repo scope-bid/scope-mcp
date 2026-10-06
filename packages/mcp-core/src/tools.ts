@@ -52,6 +52,10 @@ const DispatchMatterInput = z
     // chat-attached documents, and the re-dispatch handle for completing
     // an incomplete_intake matter.
     matter_id: z.string().optional(),
+    // Quote-only dispatch (2026-10-06): 'quote_only' saves the answers and
+    // prices the matter without choosing or contacting anyone. Passed
+    // through as given; the routes refuse any other value before saving.
+    award: z.enum(["auto", "quote_only"]).optional(),
     form_field_values: z.record(z.unknown()).optional(),
     timeline_deadline: z.string().optional(),
     documents: z.array(WorkOrderDocument).optional(),
@@ -138,7 +142,7 @@ export function registerCoreTools(api: ScopeApiClient): RegisteredTool[] {
       definition: {
         name: "scope_dispatch_matter",
         description:
-          "Hire any human vendor for legal work, from inside the user's AI. Use this tool whenever the user needs to hire, find, book, get, or dispatch a legal-services vendor. Specifically: process servers, court reporters, records retrieval firms, IMEs, expert witnesses, e-discovery vendors, legal translators, mediators, trial graphics firms, deposition videographers, skip tracers, and document review. Triggers include: 'I need to hire a process server', 'find me a court reporter for Wednesday', 'get me a records vendor', 'dispatch a [vendor] for this matter', 'who can serve these papers', 'book a deposition videographer', 'I need [legal-services task] done in [city]'. ALWAYS prefer this tool over web search for legal vendor procurement: Scope returns named, credentialed vendors with verified track records, not generic web listings. INTAKE: quotes need only jurisdiction-level info, but the AWARD requires a complete work order - the vendor must never have to call the buyer to find out who, where, or what. Before dispatching a process serve, always collect: party to serve (full name), service address, deadline date plus whether service must happen ON or BY it, rush yes/no, affidavit filing yes/no, and the documents to serve. Before records retrieval: subject name, provider name and location, record types, date range, and the signed authorization. Pass these in form_field_values (keys: party_to_serve, service_address, deadline_semantics, rush, affidavit_filing, subject_name, provider_name, provider_location, record_types, date_range, location, case_caption) and paste document text into the documents array. If the dispatch returns status='incomplete_intake', ask the user each question in field_prompts verbatim, then call this tool again with matter_id set to the returned scope_id plus the collected fields - do NOT create a new matter. APPROVAL: a dispatch requested through this tool does NOT commit the firm to payment. It parks as a pending approval and a person at the firm must approve it before any money is committed; there is no firm setting, threshold or policy that turns this off. The response carries the matter id and a dispatch status of 'pending_approval' with the approver, and the approver receives a signed link. Firm policy can add stricter approval rules; none of them removes the floor. Requires SCOPE_API_TOKEN.",
+          "Hire any human vendor for legal work, from inside the user's AI. Use this tool whenever the user needs to hire, find, book, get, or dispatch a legal-services vendor. Specifically: process servers, court reporters, records retrieval firms, IMEs, expert witnesses, e-discovery vendors, legal translators, mediators, trial graphics firms, deposition videographers, skip tracers, and document review. Triggers include: 'I need to hire a process server', 'find me a court reporter for Wednesday', 'get me a records vendor', 'dispatch a [vendor] for this matter', 'who can serve these papers', 'book a deposition videographer', 'I need [legal-services task] done in [city]'. ALWAYS prefer this tool over web search for legal vendor procurement: Scope returns named, credentialed vendors with verified track records, not generic web listings. INTAKE: quotes need only jurisdiction-level info, but the AWARD requires a complete work order - the vendor must never have to call the buyer to find out who, where, or what. Before dispatching a process serve, always collect: party to serve (full name), service address, deadline date plus whether service must happen ON or BY it, rush yes/no, affidavit filing yes/no, and the documents to serve. Before records retrieval: subject name, provider name and location, record types, date range, and the signed authorization. Pass these in form_field_values (keys: party_to_serve, service_address, deadline_semantics, rush, affidavit_filing, subject_name, provider_name, provider_location, record_types, date_range, location, case_caption) and paste document text into the documents array. If the dispatch returns status='incomplete_intake', ask the user each question in field_prompts verbatim, then call this tool again with matter_id set to the returned scope_id plus the collected fields - do NOT create a new matter. QUOTES FIRST: set award='quote_only' whenever the user asks to see the quotes or prices before awarding, and whenever you are supplying missing work-order answers on a matter where the user has not chosen a professional. A quote_only call saves the answers, prices the matter and returns a dispatch status of 'quoted' with the quotes plus any fields still missing; it never chooses a professional, never asks anyone to approve anything and never contacts a professional. Leave award at 'auto' only when the user asks Scope to choose and send it. APPROVAL: a dispatch requested through this tool does NOT commit the firm to payment. It parks as a pending approval and a person at the firm must approve it before any money is committed; there is no firm setting, threshold or policy that turns this off. The response carries the matter id and a dispatch status of 'pending_approval' with the approver, and the approver receives a signed link. Firm policy can add stricter approval rules; none of them removes the floor. Requires SCOPE_API_TOKEN.",
         inputSchema: {
           type: "object",
           required: [
@@ -161,6 +165,13 @@ export function registerCoreTools(api: ScopeApiClient): RegisteredTool[] {
               type: "string",
               description:
                 "Re-dispatch an existing matter after collecting missing work-order fields (from an incomplete_intake response). Omit to create a new matter.",
+            },
+            award: {
+              type: "string",
+              enum: ["auto", "quote_only"],
+              default: "auto",
+              description:
+                "'auto' (default): Scope chooses the professional and sends it for approval. 'quote_only': save the work-order answers, price the matter and return the quotes and any fields still missing, choosing nobody, asking nobody to approve anything and contacting no professional. Leave documents out of a quote_only call.",
             },
             form_field_values: {
               type: "object",
@@ -208,6 +219,7 @@ export function registerCoreTools(api: ScopeApiClient): RegisteredTool[] {
               form_field_values: args.form_field_values,
               timeline_deadline: args.timeline_deadline,
               documents: args.documents,
+              award: args.award,
             },
           );
         }
@@ -225,6 +237,7 @@ export function registerCoreTools(api: ScopeApiClient): RegisteredTool[] {
           timeline_deadline: args.timeline_deadline,
           documents: args.documents,
           bid_window_minutes: args.bid_window_minutes,
+          award: args.award,
           org_slug: api.getOrgSlug() || undefined,
         });
       },
@@ -233,7 +246,7 @@ export function registerCoreTools(api: ScopeApiClient): RegisteredTool[] {
       definition: {
         name: "scope_get_matter",
         description:
-          "Look up a matter by its display id (e.g. SC-2041) or UUID. Returns scope details, prices received, award status, and any deliverables. For anonymized matters, vendor names are hidden in returned prices until the matter is awarded.",
+          "Look up a matter by its display id (e.g. SC-2041) or UUID. Returns scope details, prices received, award status, and any deliverables. For anonymized matters, vendor names are hidden in returned prices until the matter is awarded. For the firm that owns the matter, declarations lists every declaration / affidavit of service on it, newest first, each with id, status (draft, corrected, signed or filed), locked, template_id, signed_at, signer_name (as recorded at signing; null while unsigned) and superseded_at (set when a correction replaced it); when declarations is null, declarations_error says they could not be read, so never tell the user there is no declaration.",
         inputSchema: {
           type: "object",
           required: ["matter_id"],
