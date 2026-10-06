@@ -2,7 +2,7 @@
 
 **Hire your next vendor through your AI.**
 
-Model Context Protocol servers for Scope.bid vendor dispatch across legal, insurance claims, and AEC services.
+Model Context Protocol servers for Scope.bid professional dispatch across legal, insurance claims, and AEC services.
 
 [scope.bid](https://scope.bid) | [MCP Registry](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) | [npm](https://www.npmjs.com/org/scope-bid) | [Plugin marketplace](https://github.com/scope-bid/scope-platform)
 
@@ -10,7 +10,7 @@ Model Context Protocol servers for Scope.bid vendor dispatch across legal, insur
 
 ## What this is
 
-Three Model Context Protocol servers that let AI assistants dispatch vendor requests to credentialed human vendors and receive bids back inside ten minutes.
+Three Model Context Protocol servers that let AI assistants dispatch requests to credentialed human professionals and get back each professional's price, computed from their own published rate card.
 
 - `@scope-bid/scope-mcp` - legal vertical (court reporters, IMEs, records, experts, e-discovery, translation, mediators, trial graphics, foreign-jurisdiction counsel, more)
 - `@scope-bid/scope-claims-mcp` - insurance claims (IMEs, surveillance, peer review, voc rehab, life-care plans, defense medical record review)
@@ -77,7 +77,7 @@ HTTP endpoints:
 ## Tools
 
 **Legal** (`bid.scope/legal`):
-- `scope_dispatch_matter` - send a matter to vendors and get live quotes
+- `scope_dispatch_matter` - send a matter to professionals and get their rate-card prices
 - `scope_briefing` - daily briefing across all open matters
 - `scope_get_matter`, `scope_list_matters`, `scope_list_categories`, `scope_list_vendors`, `scope_list_roster`
 - `scope_set_vendor_tier`, `scope_remove_from_roster`, `scope_award_matter`
