@@ -36,8 +36,8 @@ function writeDestructive(title: string): ScopeToolAnnotations {
 export const TOOL_ANNOTATIONS: Record<string, ScopeToolAnnotations> = {
   // Cross-vertical core tools (mcp-core)
   scope_list_categories: read("List service categories"),
-  scope_list_vendors: read("List credentialed vendors"),
-  scope_dispatch_matter: writeAdditive("Dispatch a matter to vendors"),
+  scope_list_vendors: read("List credentialed professionals"),
+  scope_dispatch_matter: writeAdditive("Dispatch a matter to professionals"),
   scope_get_matter: read("Get matter status and quotes"),
   scope_list_matters: read("List the firm's matters"),
   scope_get_messages: read("Read the matter thread"),

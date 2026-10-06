@@ -43,7 +43,7 @@ server.registerTool(
     status: "preview",
     expected_launch: "2027",
     headline:
-      "Scope's vertical-MCP plumbing layer for AEC subcontractor procurement. Connects BuildingConnected, TradeTapp, ISN/Avetta, Procore, and myCOI - the cross-platform layer that doesn't exist today. Buyer: GC procurement / risk officer. Vendors: subcontractors and specialty trades.",
+      "Scope's vertical-MCP plumbing layer for AEC subcontractor procurement. Connects BuildingConnected, TradeTapp, ISN/Avetta, Procore, and myCOI - the cross-platform layer that doesn't exist today. Buyer: GC procurement / risk officer. Professionals: subcontractors and specialty trades.",
     v1_categories_planned: [
       "subcontractor-prequal",
       "specialty-trade-bid",
@@ -52,8 +52,8 @@ server.registerTool(
       "performance-bond-issuance",
     ],
     join_waitlist:
-      "Use scope_aec_join_waitlist or sign up at scope-bid.vercel.app/founding-vendors",
-    learn_more: "https://scope-bid.vercel.app/mcp/aec",
+      "Use scope_aec_join_waitlist or sign up at scope.bid/founding",
+    learn_more: "https://scope.bid/mcp/aec",
   }),
 );
 
@@ -61,7 +61,7 @@ server.registerTool(
   {
     name: "scope_aec_categories",
     description:
-      "List planned V3 service categories for Scope's AEC subcontractor procurement. These are the categories vendors and GCs can register for in the founding cohort.",
+      "List planned V3 service categories for Scope's AEC subcontractor procurement. These are the categories professionals and GCs can register for in the founding cohort.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   async () => ({
@@ -78,7 +78,7 @@ server.registerTool(
       },
       {
         slug: "insurance-coi-tracking",
-        label: "Insurance certificate tracking (cross-vendor)",
+        label: "Insurance certificate tracking (across professionals)",
         api_status: "api_native",
       },
       {
@@ -161,7 +161,7 @@ server.registerTool(
   {
     name: "scope_reschedule_project",
     description:
-      "Reschedule an already-awarded AEC project to a new date. Use only when the project is in an active engagement state (post-award, pre-delivery). Returns the confirmed new slot and whether the vendor was notified.",
+      "Reschedule an already-awarded AEC project to a new date. Use only when the project is in an active engagement state (post-award, pre-delivery). Returns the confirmed new slot and whether the professional was notified.",
     inputSchema: {
       type: "object",
       required: ["project_id", "new_date"],

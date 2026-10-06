@@ -4,7 +4,7 @@
   "description": "Shared core for Scope's vertical MCP servers. REST client, auth, base server framework.",
   "license": "Apache-2.0",
   "author": "Jack Gillen <jack@scope.bid>",
-  "homepage": "https://scope-bid.vercel.app/mcp",
+  "homepage": "https://scope.bid/mcp",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scope-bid/scope-mcp.git",
