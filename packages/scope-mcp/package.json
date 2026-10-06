@@ -1,6 +1,6 @@
 {
   "name": "@scope-bid/scope-mcp",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "mcpName": "bid.scope/legal",
   "description": "MCP server for Scope.bid legal professional dispatch. Engage court reporters, IMEs, records, experts, e-discovery, and more through your AI assistant.",
   "license": "Apache-2.0",
@@ -48,7 +48,7 @@
     "prepublishOnly": "npm run build"
   },
   "dependencies": {
-    "@scope-bid/mcp-core": "^1.0.0",
+    "@scope-bid/mcp-core": "^1.0.10",
     "zod": "^3.23.0"
   },
   "devDependencies": {
