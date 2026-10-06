@@ -6,7 +6,7 @@
 // @scope-bid/mcp-core and registers legal-specific tools on top.
 //
 // Configuration via env vars:
-//   SCOPE_API_BASE   default https://scope-bid.vercel.app
+//   SCOPE_API_BASE   default https://scope.bid
 //   SCOPE_API_TOKEN  required for write tools (dispatch_matter)
 //   SCOPE_ORG_SLUG   optional, scopes reads/writes to a specific buyer org
 //
@@ -48,7 +48,7 @@ server.registerTool(
   {
     name: "scope_book_deposition",
     description:
-      "Convenience tool for booking a deposition. Wraps scope_dispatch_matter with the court-reporting service category and structured deposition fields, and inherits its approval rule: the booking parks as a pending approval and a person at the firm must approve it before any money is committed. Returns matter id and dispatch status.",
+      "Convenience tool for booking a deposition. Wraps scope_dispatch_matter with the court-reporting service category and structured deposition fields, and inherits its approval rule: the booking waits for a person at the firm to approve it unless a pre-authorization the firm has set up covers it, in which case it commits within that pre-authorization's limits. Returns matter id and dispatch status.",
     inputSchema: {
       type: "object",
       required: ["witness_name", "date", "location"],
@@ -111,7 +111,7 @@ server.registerTool(
   {
     name: "scope_request_records",
     description:
-      "Convenience tool for ordering records retrieval. Wraps scope_dispatch_matter with the records-retrieval service category and structured custodian fields, and inherits its approval rule: the order parks as a pending approval and a person at the firm must approve it before any money is committed. Returns matter id and dispatch status.",
+      "Convenience tool for ordering records retrieval. Wraps scope_dispatch_matter with the records-retrieval service category and structured custodian fields, and inherits its approval rule. A pre-authorization never covers records retrieval, so the order parks as a pending approval and a person at the firm must approve it before any money is committed. Returns matter id and dispatch status.",
     inputSchema: {
       type: "object",
       required: [
@@ -168,7 +168,7 @@ server.registerTool(
   {
     name: "scope_reschedule_project",
     description:
-      "Reschedule an already-awarded project to a new date. Use only when the project is in an active engagement state (post-award, pre-delivery). Returns the confirmed new slot and whether the vendor was notified.",
+      "Reschedule an already-awarded project to a new date. Use only when the project is in an active engagement state (post-award, pre-delivery). Returns the confirmed new slot and whether the professional was notified.",
     inputSchema: {
       type: "object",
       required: ["project_id", "new_date"],

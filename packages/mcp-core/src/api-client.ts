@@ -4,7 +4,7 @@
 
 import type { ScopeApiConfig } from "./types.js";
 
-const DEFAULT_API_BASE = "https://scope-bid.vercel.app";
+const DEFAULT_API_BASE = "https://scope.bid";
 
 export class ScopeApiClient {
   private apiBase: string;

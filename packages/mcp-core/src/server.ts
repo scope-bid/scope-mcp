@@ -56,16 +56,20 @@ export function createScopeServer(config: ScopeServerConfig): ScopeServerInstanc
 
   // Instructions travel on initialize so a client knows the two facts
   // that govern every tool here before it calls one: nothing commits the
-  // firm to payment without a person at the firm approving it, and a
-  // demo token returns labeled sample data. Mirrors the HTTP transport's
-  // initialize instructions so npm and HTTP tell the same story.
+  // firm to payment unless a person at the firm approves it or a
+  // pre-authorization the firm has set up covers it, and a
+  // demo token is not a firm token. The hosted HTTP transport sends its
+  // own, shorter instructions; these differ on purpose because this
+  // package calls Scope's REST routes directly, where a missing or demo
+  // token gets an error or the public directory, never the labeled sample
+  // data the hosted demo mode returns.
   const token = process.env.SCOPE_API_TOKEN ?? "";
   const demoMode = !token || token.startsWith("scope_pk_demo");
   const instructions = [
     demoMode
-      ? "This Scope connection is running without a firm API token, so tools that read return representative sample data labeled as such, and nothing here dispatches real work, engages a professional, or moves money."
+      ? "This Scope connection has no firm API token (a demo token does not count as one). The tools that need one return an error, any tool that reads without one returns Scope's public directory, not the firm's records, and nothing here dispatches real work, engages a professional, or moves money."
       : "This Scope connection uses the firm's API token.",
-    "APPROVAL FLOOR: a dispatch or award requested through these tools never commits the firm to payment by itself. It parks as a pending approval and a person at the firm must approve it before any money is committed. No firm setting, threshold or policy removes that floor.",
+    "APPROVAL: a dispatch or award requested through these tools waits for a person at the firm to approve it unless a pre-authorization the firm has set up covers it, in which case it commits within that pre-authorization's limits.",
     "PAYMENT: awards settle as a Stripe invoice issued to the firm when the matter completes. No card is captured and no payment method is collected inside this conversation.",
   ].join(" ");
 

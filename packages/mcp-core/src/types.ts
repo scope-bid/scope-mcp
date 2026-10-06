@@ -3,7 +3,7 @@
 import type { Tool } from "@modelcontextprotocol/sdk/types.js";
 
 export type ScopeApiConfig = {
-  /** Base URL of the Scope backend. Defaults to https://scope-bid.vercel.app */
+  /** Base URL of the Scope backend. Defaults to https://scope.bid */
   apiBase?: string;
   /** Bearer token for write operations. Required for dispatch_matter and other writes. */
   apiToken?: string;

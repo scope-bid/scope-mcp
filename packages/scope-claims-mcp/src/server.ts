@@ -43,7 +43,7 @@ server.registerTool(
   {
     name: "scope_claims_status",
     description:
-      "Returns the status and roadmap for Scope's claims-side vendor procurement (V2). Useful for AI workflows that want to know whether IME / IA / surveillance dispatch is live yet.",
+      "Returns the status and roadmap for Scope's claims-side professional procurement (V2). Useful for AI workflows that want to know whether IME / IA / surveillance dispatch is live yet.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   async () => ({
@@ -51,7 +51,7 @@ server.registerTool(
     status: "preview",
     expected_launch: "Q3 2026",
     headline:
-      "Scope's vertical-MCP plumbing layer for insurance claims-side vendor procurement. Buyer: carrier claim ops + corporate risk managers. Vendors: IMEs, IA firms, surveillance, vocational experts, life-care planners, defense panel counsel.",
+      "Scope's vertical-MCP plumbing layer for insurance claims-side professional procurement. Buyer: carrier claim ops + corporate risk managers. Professionals: IMEs, IA firms, surveillance, vocational experts, life-care planners, defense panel counsel.",
     v1_categories_planned: [
       "independent-medical-exam",
       "independent-adjuster",
@@ -61,8 +61,8 @@ server.registerTool(
       "subrogation-recovery",
     ],
     join_waitlist:
-      "Use scope_claims_join_waitlist or sign up at scope-bid.vercel.app/founding-vendors",
-    learn_more: "https://scope-bid.vercel.app/mcp/claims",
+      "Use scope_claims_join_waitlist or sign up at scope.bid/founding",
+    learn_more: "https://scope.bid/mcp/claims",
   }),
 );
 
@@ -74,7 +74,7 @@ server.registerTool(
   {
     name: "scope_claims_categories",
     description:
-      "List planned V2 service categories for Scope's claims-side vendor dispatch. These are the categories vendors can register for in the founding cohort.",
+      "List planned V2 service categories for Scope's claims-side professional dispatch. These are the categories professionals can register for in the founding cohort.",
     inputSchema: { type: "object", properties: {}, additionalProperties: false },
   },
   async () => ({
@@ -130,7 +130,7 @@ server.registerTool(
   {
     name: "scope_claims_join_waitlist",
     description:
-      "Register interest in Scope's V2 (insurance claims). For vendors who want to be in the founding cohort, or carriers / TPAs / corporate risk teams who want early access. Captured to the Scope waitlist.",
+      "Register interest in Scope's V2 (insurance claims). For professionals who want to be in the founding cohort, or carriers / TPAs / corporate risk teams who want early access. Captured to the Scope waitlist.",
     inputSchema: {
       type: "object",
       required: ["email", "role"],
@@ -187,7 +187,7 @@ server.registerTool(
   {
     name: "scope_reschedule_project",
     description:
-      "Reschedule an already-awarded claims project to a new date. Use only when the project is in an active engagement state (post-award, pre-delivery). Returns the confirmed new slot and whether the vendor was notified.",
+      "Reschedule an already-awarded claims project to a new date. Use only when the project is in an active engagement state (post-award, pre-delivery). Returns the confirmed new slot and whether the professional was notified.",
     inputSchema: {
       type: "object",
       required: ["project_id", "new_date"],
