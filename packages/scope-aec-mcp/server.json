@@ -2,8 +2,8 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
   "name": "bid.scope/aec",
   "title": "Scope (AEC) - Preview",
-  "description": "AEC subcontractor vendor procurement plumbing layer. Preview - V3 launches 2027.",
-  "version": "1.0.6",
+  "description": "AEC subcontractor procurement layer. Preview - V3 launches 2027.",
+  "version": "1.0.10",
   "repository": {
     "url": "https://github.com/scope-bid/scope-mcp",
     "source": "github"
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "@scope-bid/scope-aec-mcp",
-      "version": "1.0.6",
+      "version": "1.0.10",
       "transport": {
         "type": "stdio"
       }
