@@ -6,7 +6,7 @@
 #
 #   docker build -f packages/scope-aec-mcp/Dockerfile -t scopebid/scope-aec-mcp:dev .
 
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /repo
 
 COPY package.json package-lock.json ./
@@ -21,7 +21,7 @@ COPY packages/scope-aec-mcp ./packages/scope-aec-mcp
 RUN npm run build --workspace=@scope-bid/mcp-core
 RUN npm run build --workspace=@scope-bid/scope-aec-mcp
 
-FROM node:20-alpine AS production
+FROM node:24-alpine AS production
 ENV NODE_ENV=production
 ENV PORT=8080
 WORKDIR /app

@@ -15,7 +15,7 @@
 # Inbound auth: clients present Authorization: Bearer <SCOPE_API_TOKEN>.
 # Outbound: the gateway forwards the same token to scope.bid.
 
-FROM node:20-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /repo
 
 # Install root + workspace deps with the package-lock pinned.
@@ -32,7 +32,7 @@ COPY packages/scope-mcp ./packages/scope-mcp
 RUN npm run build --workspace=@scope-bid/mcp-core
 RUN npm run build --workspace=@scope-bid/scope-mcp
 
-FROM node:20-alpine AS production
+FROM node:24-alpine AS production
 ENV NODE_ENV=production
 ENV PORT=8080
 WORKDIR /app
