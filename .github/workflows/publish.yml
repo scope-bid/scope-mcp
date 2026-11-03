@@ -66,7 +66,15 @@ jobs:
 
       - name: Publish @scope-bid/mcp-core
         working-directory: packages/mcp-core
-        run: npm publish --provenance --access public
+        # Idempotent: a re-run after a later step failed skips a version npm
+        # already has instead of failing on "cannot publish over".
+        run: |
+          v=$(node -p "require('./package.json').version")
+          if npm view "@scope-bid/mcp-core@$v" version >/dev/null 2>&1; then
+            echo "@scope-bid/mcp-core@$v already on npm, skipping"
+          else
+            npm publish --provenance --access public
+          fi
 
       - name: Wait for mcp-core to propagate
         # The three vertical packages declare a runtime dep on mcp-core.
@@ -76,15 +84,39 @@ jobs:
 
       - name: Publish @scope-bid/scope-mcp
         working-directory: packages/scope-mcp
-        run: npm publish --provenance --access public
+        # Idempotent: a re-run after a later step failed skips a version npm
+        # already has instead of failing on "cannot publish over".
+        run: |
+          v=$(node -p "require('./package.json').version")
+          if npm view "@scope-bid/scope-mcp@$v" version >/dev/null 2>&1; then
+            echo "@scope-bid/scope-mcp@$v already on npm, skipping"
+          else
+            npm publish --provenance --access public
+          fi
 
       - name: Publish @scope-bid/scope-claims-mcp
         working-directory: packages/scope-claims-mcp
-        run: npm publish --provenance --access public
+        # Idempotent: a re-run after a later step failed skips a version npm
+        # already has instead of failing on "cannot publish over".
+        run: |
+          v=$(node -p "require('./package.json').version")
+          if npm view "@scope-bid/scope-claims-mcp@$v" version >/dev/null 2>&1; then
+            echo "@scope-bid/scope-claims-mcp@$v already on npm, skipping"
+          else
+            npm publish --provenance --access public
+          fi
 
       - name: Publish @scope-bid/scope-aec-mcp
         working-directory: packages/scope-aec-mcp
-        run: npm publish --provenance --access public
+        # Idempotent: a re-run after a later step failed skips a version npm
+        # already has instead of failing on "cannot publish over".
+        run: |
+          v=$(node -p "require('./package.json').version")
+          if npm view "@scope-bid/scope-aec-mcp@$v" version >/dev/null 2>&1; then
+            echo "@scope-bid/scope-aec-mcp@$v already on npm, skipping"
+          else
+            npm publish --provenance --access public
+          fi
 
       # ---- MCP Registry --------------------------------------------------
       # npm (above) and the MCP Registry are two separate systems. Keeping the
@@ -124,11 +156,28 @@ jobs:
             --domain scope.bid \
             --private-key "${{ secrets.BID_SCOPE_KEY }}"
 
+      - name: Wait for npm to serve every vertical at this version
+        # The MCP Registry validates the package version against npm and
+        # returns 400 if npm does not serve it yet (v1.0.11 hit this).
+        run: |
+          for pkg in scope-mcp scope-claims-mcp scope-aec-mcp; do
+            v=$(node -p "require('./packages/$pkg/package.json').version")
+            for i in $(seq 1 40); do
+              if npm view "@scope-bid/$pkg@$v" version >/dev/null 2>&1; then echo "$pkg@$v visible"; break; fi
+              if [ "$i" = 40 ]; then echo "$pkg@$v not visible on npm after 10 minutes"; exit 1; fi
+              sleep 15
+            done
+          done
+
       - name: Publish server.json to the MCP Registry
         run: |
-          ./mcp-publisher publish packages/scope-mcp/server.json
-          ./mcp-publisher publish packages/scope-claims-mcp/server.json
-          ./mcp-publisher publish packages/scope-aec-mcp/server.json
+          for pkg in scope-mcp scope-claims-mcp scope-aec-mcp; do
+            for i in 1 2 3 4 5; do
+              if ./mcp-publisher publish "packages/$pkg/server.json"; then break; fi
+              if [ "$i" = 5 ]; then exit 1; fi
+              sleep 30
+            done
+          done
 
       - name: Summary
         run: |
