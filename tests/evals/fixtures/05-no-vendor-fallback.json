@@ -21,5 +21,5 @@
   ],
   "response_must_contain_one_of": ["no professional", "No professional", "not available"],
   "forbidden_fabrications": "vendor_names_not_in_tool_output",
-  "response_must_not_contain": ["matched", "recommended", "—", "24-hour", "24 hour", "service level", "verified partner", "partner network", "credentialed quotes", "fallback routing", " sla ", " sla.", " sla,", "(sla", "service-level", "within 24", "within 48", "24h", "48h", "48-hour", "48 hour", "business day", "three quotes", "next-day", "next day", "within a day", "by tomorrow"]
+  "response_must_not_contain": ["matched", "recommended", "—", "24-hour", "24 hour", "service level", "verified partner", "partner network", "credentialed quotes", "fallback routing", " sla ", " sla.", " sla,", " sla:", " sla;", " sla)", " sla-", " slas ", " slas.", " slas,", "(sla", "*sla", "service-level", "within 24", "within 48", "24h", "48h", "48-hour", "48 hour", "business day", "three quotes", "quotes back by", "quotes back within", "quotes back in", "quotes back tomorrow", "next-day", "same-day", "within a day", "within two days", "within 72", "72-hour", "72 hour"]
 }
