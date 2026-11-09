@@ -21,5 +21,5 @@
   ],
   "response_must_contain_one_of": ["no professional", "No professional", "not available"],
   "forbidden_fabrications": "vendor_names_not_in_tool_output",
-  "response_must_not_contain": ["matched", "recommended", "—"]
+  "response_must_not_contain": ["matched", "recommended", "—", "24-hour", "24 hour", "service level", "verified partner", "partner network", "credentialed quotes", "fallback routing"]
 }
