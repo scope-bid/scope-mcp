@@ -35,5 +35,5 @@ vercel deploy --prod
 
 ## Notes
 
-- Vercel Functions have a 60-second timeout for hobby and 5-minute timeout for Pro/Enterprise. The gateway's tool calls typically complete in under 1 second, but if a downstream Scope call hits a long bid window, ensure your Vercel plan supports the right duration.
+- Vercel Functions have a 60-second timeout for hobby and 5-minute timeout for Pro/Enterprise. The gateway's tool calls typically complete in under 1 second, but if a downstream Scope call runs long, ensure your Vercel plan supports the right duration.
 - For strict perimeter compliance, use the Docker Compose or Kubernetes template instead (gateway runs inside your own network).

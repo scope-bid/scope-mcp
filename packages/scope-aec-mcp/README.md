@@ -1,22 +1,10 @@
 # @scope-bid/scope-aec-mcp
 
-> Open source MCP server for construction subcontractor procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) engage AEC subcontractors at published prices.
+> Preview of Scope's open-source MCP server for AEC subcontractor procurement.
 
-Third of three vertical-services MCP servers from Scope. Listed in Anthropic's official MCP Registry at `bid.scope/aec`.
+Listed in Anthropic's official MCP Registry at `bid.scope/aec`.
 
-[Live demo](https://scope.bid) · [MCP Registry listing](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) · [Platform](https://scope.bid)
-
-## What it does
-
-A general contractor or estimator types into their AI:
-
-> "I need a concrete sub for the Houston warehouse project, 50k sf, June start."
-
-Scope returns qualified subcontractors across the trade with prequal, bonding, safety and mobilize fields, at published prices, in seconds. The sub accepts, mobilizes, delivers. All inside the same AI conversation.
-
-## Categories supported
-
-Subcontractor dispatch (every trade), subcontractor prequalification (cross-platform: ISN, Avetta, TradeTapp, Veriforce), bonding capacity verification, certificate-of-insurance validation, OSHA / EMR safety record pull.
+[Live demo](https://scope.bid) | [MCP Registry listing](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) | [Platform](https://scope.bid)
 
 ## Install
 
@@ -32,7 +20,23 @@ bid.scope/aec
 
 ## How it works
 
-This package is the open-source SDK layer. The platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles sub dispatch at published prices, payment, and the audit trail.
+This package is the open-source SDK layer. The platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, and the platform answers.
+
+## Tools
+
+AEC is in preview. Neither this package nor the HTTP endpoint has live dispatch or award yet.
+
+This package runs over stdio and serves:
+
+- `scope_aec_status` - preview status
+- `scope_aec_categories` - the planned AEC categories
+- `scope_aec_join_waitlist` - register interest from inside your AI
+- `scope_reschedule_project` - move the date of an awarded work order that is not yet delivered (needs `SCOPE_API_TOKEN`)
+
+The HTTP endpoint at `https://scope.bid/api/mcp/aec` serves a different set: `scope_aec_status`, `scope_aec_join_waitlist`, `scope_list_aec_categories`, `scope_list_aec_vendors`, `scope_dispatch_subcontractor`, `scope_award_subcontractor`, `scope_verify_prequal`, `scope_check_bonding`, `scope_pull_safety_record` and `scope_briefing`.
+
+- In demo mode these tools answer with fictional sample data. Nothing is dispatched or awarded, and a demo waitlist entry is not saved.
+- For a signed-in firm, only `scope_briefing` returns live data (a briefing on the firm's matters). The other tools return a preview notice.
 
 ## Configuration
 
@@ -42,7 +46,7 @@ See the [scope.bid install guide](https://scope.bid/install) for the exact confi
 
 ## Status
 
-Preview. V3 production launch 2027. Status / waitlist tools live; write tools (dispatch, award, payout) ship as part of the V3 production cutover. Cross-platform integrations with ISN, Avetta, TradeTapp, Veriforce, BuildingConnected, Procore on the roadmap.
+Preview. No live dispatch or award yet. See [Tools](#tools) for what this package and the HTTP endpoint serve today.
 
 ## License
 

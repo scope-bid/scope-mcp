@@ -1,24 +1,10 @@
 # @scope-bid/scope-claims-mcp
 
-> Open source MCP server for claims-side professional procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) engage claims professionals at published rate-card prices.
+> Preview of Scope's open-source MCP server for claims-side professional procurement.
 
-Second of three vertical-services MCP servers from Scope. Listed in Anthropic's official MCP Registry at `bid.scope/claims`.
+Listed in Anthropic's official MCP Registry at `bid.scope/claims`.
 
-[Live demo](https://scope.bid) · [MCP Registry listing](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) · [Platform](https://scope.bid)
-
-## What it does
-
-A claims adjuster or defense paralegal types into their AI:
-
-> "I need an IME panel examiner for claimant John Doe in Phoenix, June 15."
-
-Scope returns the standing rate-card prices of credentialed professionals in the category, under their own names, in seconds. The professional accepts, schedules the exam, delivers the report. All inside the same AI conversation.
-
-## Categories supported
-
-IME (independent medical exams), records retrieval, surveillance, vocational rehabilitation, life-care planning, defense medical record review.
-
-HIPAA BAA required per professional at claims onboarding.
+[Live demo](https://scope.bid) | [MCP Registry listing](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) | [Platform](https://scope.bid)
 
 ## Install
 
@@ -34,7 +20,26 @@ bid.scope/claims
 
 ## How it works
 
-This package is the open-source SDK layer. The platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles dispatch at published rate-card prices, payment via Stripe Connect, and the audit trail.
+This package is the open-source SDK layer. The platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, and the platform answers.
+
+## Tools
+
+Claims is in preview. Neither this package nor the HTTP endpoint has live dispatch or award yet.
+
+This package runs over stdio and serves:
+
+- `scope_claims_status` - preview status
+- `scope_claims_categories` - the planned claims categories
+- `scope_claims_join_waitlist` - register interest from inside your AI
+- `scope_reschedule_project` - move the date of an awarded work order that is not yet delivered (needs `SCOPE_API_TOKEN`)
+
+The HTTP endpoint at `https://scope.bid/api/mcp/claims` serves a different set:
+
+- `scope_claims_status` and `scope_claims_join_waitlist`
+- for a signed-in firm, `scope_briefing` (a briefing on the firm's matters)
+- for a signed-in firm, read-only reporting tools: `scope_roster_audit`, `scope_spend_rollup`, `scope_vendor_health`, `scope_credential_alerts`, `scope_get_dispatch_routing_state` and `scope_market_rate_compare`
+- for a signed-in firm, the deliverable tools: `scope_list_deliverables_for_scope`, `scope_get_deliverable`, `scope_search_deliverables`, and `scope_send_deliverable`, which sends an existing deliverable to the recipients you name
+- `scope_conflict_log` is listed but not available yet. It returns an empty result and is not a conflict check.
 
 ## Configuration
 
@@ -44,7 +49,7 @@ See the [scope.bid install guide](https://scope.bid/install) for the exact confi
 
 ## Status
 
-Preview. V2 production launch Q3 2026. Status / waitlist tools live; write tools (dispatch, award, payout) ship as part of the V2 production cutover. HIPAA BAA infrastructure required for full production.
+Preview. No live dispatch or award yet. See [Tools](#tools) for what this package and the HTTP endpoint serve today.
 
 ## License
 
