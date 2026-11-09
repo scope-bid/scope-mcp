@@ -4,7 +4,7 @@
 
 First vertical-services MCP server published to Anthropic's official MCP Registry. Live since 2026-05-03 at `bid.scope/legal`.
 
-[Live demo](https://scope.bid) · [MCP Registry listing](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) · [Platform](https://scope.bid)
+[Live demo](https://scope.bid) | [MCP Registry listing](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) | [Platform](https://scope.bid)
 
 ## What it does
 
@@ -14,9 +14,9 @@ A lawyer or paralegal types into their AI:
 
 Scope returns the standing rate-card prices of credentialed professionals in the category, under their own names, in seconds. A dispatch waits for a person at the firm to approve it unless a pre-authorization the firm has set up covers it, in which case it commits within that pre-authorization's limits. Once approved, the professional accepts, mobilizes, delivers. All inside the same AI conversation.
 
-## Categories supported
+## Categories
 
-Process serving, court reporting, records retrieval, expert witnesses, IMEs, e-discovery, translation, mediators, trial graphics, deposition videography, court interpreters, legal staffing, ADR / arbitration coordinators, foreign-jurisdiction counsel.
+Call `scope_list_categories` for the current list. Prices come back only from professionals who have published a rate card for the category.
 
 ## Install
 
@@ -48,7 +48,7 @@ See the [scope.bid install guide](https://scope.bid/install) for the exact confi
 
 ## Status
 
-In limited release. On the official Anthropic MCP Registry since 2026-05-03; the whole loop runs in demo today, and real dispatches are opening to design partner firms. Stripe Connect for payments. Rate-card pricing; a person at the firm approves every commitment a pre-authorization does not cover.
+Scope is live in production with demo mode available; it is opening to its first firms and professionals now. On the official Anthropic MCP Registry since 2026-05-03. Stripe Connect for payments. Rate-card pricing; a person at the firm approves every commitment a pre-authorization does not cover.
 
 ## License
 

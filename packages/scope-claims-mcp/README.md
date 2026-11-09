@@ -1,24 +1,10 @@
 # @scope-bid/scope-claims-mcp
 
-> Open source MCP server for claims-side professional procurement. Lets any MCP-compatible AI assistant (Claude, ChatGPT, Microsoft Copilot, Cursor, Cowork) engage claims professionals at published rate-card prices.
+> Preview of Scope's open-source MCP server for claims-side professional procurement.
 
-Second of three vertical-services MCP servers from Scope. Listed in Anthropic's official MCP Registry at `bid.scope/claims`.
+Listed in Anthropic's official MCP Registry at `bid.scope/claims`.
 
-[Live demo](https://scope.bid) · [MCP Registry listing](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) · [Platform](https://scope.bid)
-
-## What it does
-
-A claims adjuster or defense paralegal types into their AI:
-
-> "I need an IME panel examiner for claimant John Doe in Phoenix, June 15."
-
-Scope returns the standing rate-card prices of credentialed professionals in the category, under their own names, in seconds. The professional accepts, schedules the exam, delivers the report. All inside the same AI conversation.
-
-## Categories supported
-
-IME (independent medical exams), records retrieval, surveillance, vocational rehabilitation, life-care planning, defense medical record review.
-
-HIPAA BAA required per professional at claims onboarding.
+[Live demo](https://scope.bid) | [MCP Registry listing](https://registry.modelcontextprotocol.io/v0/servers?search=bid.scope) | [Platform](https://scope.bid)
 
 ## Install
 
@@ -34,7 +20,7 @@ bid.scope/claims
 
 ## How it works
 
-This package is the open-source SDK layer. The platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles dispatch at published rate-card prices, payment via Stripe Connect, and the audit trail.
+This package is the open-source SDK layer. The platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, and the platform answers.
 
 ## Configuration
 
@@ -44,7 +30,7 @@ See the [scope.bid install guide](https://scope.bid/install) for the exact confi
 
 ## Status
 
-Preview. V2 production launch Q3 2026. Status / waitlist tools live; write tools (dispatch, award, payout) ship as part of the V2 production cutover. HIPAA BAA infrastructure required for full production.
+Preview. This package serves status, categories, waitlist and reschedule tools. Dispatch is not available yet.
 
 ## License
 

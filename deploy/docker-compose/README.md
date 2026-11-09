@@ -1,11 +1,19 @@
 # Scope MCP gateway on Docker Compose
 
-The simplest self-hosted deploy. Runs the Scope MCP gateway as a long-lived container with the published image.
+The simplest self-hosted deploy. Runs the Scope MCP gateway as a long-lived container built from this repo.
 
 ## Prerequisites
 
 - Docker Engine 24+
-- A `SCOPE_API_TOKEN` issued by Scope at enterprise onboarding (email enterprise@scope.bid)
+- A `SCOPE_API_TOKEN` from the MCP API tokens section of your Scope settings (https://scope.bid/settings)
+
+## Build the image
+
+The gateway image is not published to a public registry. Build it from the repo root; the tag below is the one `docker-compose.yml` expects:
+
+```bash
+docker build -f packages/scope-mcp/Dockerfile -t scopebid/scope-mcp:1.0.0 .
+```
 
 ## Deploy
 
@@ -43,12 +51,14 @@ The defaults in `docker-compose.yml` fit the Small profile (under 100 dispatches
 
 ## Other verticals
 
-For claims or AEC vendor dispatch swap the image:
+For the claims or AEC preview servers, build the corresponding image from the repo root and set it as the `image` in `docker-compose.yml`:
 
-- `scopebid/scope-claims-mcp:1.0.0`
-- `scopebid/scope-aec-mcp:1.0.0`
+```bash
+docker build -f packages/scope-claims-mcp/Dockerfile -t scopebid/scope-claims-mcp:1.0.0 .
+docker build -f packages/scope-aec-mcp/Dockerfile -t scopebid/scope-aec-mcp:1.0.0 .
+```
 
-Each runs on the same port and accepts the same env. Run all three in parallel if your firm uses all three verticals.
+Each runs on the same port and accepts the same env.
 
 ## Observability
 

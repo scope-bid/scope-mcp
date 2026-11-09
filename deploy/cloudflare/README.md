@@ -11,7 +11,7 @@ Most firms with strict network controls will want option 2.
 
 - Cloudflare account with Workers (or Workers Sandbox for option 2)
 - `wrangler` CLI installed: `npm install -g wrangler`
-- A `SCOPE_API_TOKEN` issued by Scope at enterprise onboarding
+- A `SCOPE_API_TOKEN` from the MCP API tokens section of your Scope settings (https://scope.bid/settings)
 
 ## Option 1: Workers deploy
 
@@ -28,6 +28,9 @@ The `wrangler.toml` in this directory configures the gateway to serve on your Wo
 ## Option 2: Workers Sandbox + Cloudflare Tunnel
 
 ```bash
+# Build the gateway image from the repo root (it is not published to a public registry).
+docker build -f packages/scope-mcp/Dockerfile -t scopebid/scope-mcp:1.0.0 .
+
 # Run the gateway container inside your network.
 docker run -d --name scope-gateway \
   -p 8080:8080 \
@@ -50,5 +53,5 @@ curl https://gateway.your-firm.com/health
 
 ## Notes
 
-- Workers runtime requires the gateway code to fit Cloudflare's Workers limits. The Node.js HTTP server in `@scope-bid/scope-mcp serve` needs a small wrapper to run as a Worker. Contact enterprise@scope.bid for the Workers-adapted entry point if you go with option 1.
+- Workers runtime requires the gateway code to fit Cloudflare's Workers limits. The Node.js HTTP server in `@scope-bid/scope-mcp serve` needs a small wrapper to run as a Worker. This repo does not include that wrapper, so option 1 needs one before `wrangler deploy` will serve requests.
 - For tight integration with Anthropic Managed Agents tunnels, see `/docs/enterprise/self-hosted-mcp` on scope.bid.

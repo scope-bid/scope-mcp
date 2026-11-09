@@ -1,6 +1,6 @@
 # @scope-bid/scope-mcp
 
-**Hire your next vendor through your AI.**
+**Engage credentialed professionals from inside your AI.**
 
 Model Context Protocol servers for Scope.bid professional dispatch across legal, insurance claims, and AEC services.
 
@@ -10,13 +10,13 @@ Model Context Protocol servers for Scope.bid professional dispatch across legal,
 
 ## What this is
 
-Three Model Context Protocol servers that let AI assistants dispatch requests to credentialed human professionals and get back each professional's price, computed from their own published rate card.
+Model Context Protocol servers that let AI assistants dispatch requests to credentialed human professionals and get back each professional's price, computed from their own published rate card.
 
-- `@scope-bid/scope-mcp` - legal vertical (court reporters, IMEs, records, experts, e-discovery, translation, mediators, trial graphics, foreign-jurisdiction counsel, more)
-- `@scope-bid/scope-claims-mcp` - insurance claims (IMEs, surveillance, peer review, voc rehab, life-care plans, defense medical record review)
-- `@scope-bid/scope-aec-mcp` - AEC (subcontractor prequal, bonding, safety records, dispatch)
+- `@scope-bid/scope-mcp` - legal services (live)
+- `@scope-bid/scope-claims-mcp` - insurance claims (preview)
+- `@scope-bid/scope-aec-mcp` - AEC (preview)
 
-Scope.bid is the first vertical-services MCP platform on Anthropic's official Model Context Protocol Registry. Three namespaces are claimed under DNS-verified `bid.scope/*` (legal, claims, AEC). Two are reserved (healthcare, pharma).
+The servers are listed on Anthropic's official Model Context Protocol Registry under the DNS-verified namespaces `bid.scope/legal`, `bid.scope/claims` and `bid.scope/aec`.
 
 **Scope.bid is not affiliated with scope-bid.com**, an unrelated laboratory equipment auction platform.
 
@@ -82,11 +82,11 @@ HTTP endpoints:
 - `scope_get_matter`, `scope_list_matters`, `scope_list_categories`, `scope_list_vendors`, `scope_list_roster`
 - `scope_set_vendor_tier`, `scope_remove_from_roster`, `scope_award_matter`
 - `scope_roster_audit`, `scope_vendor_health`, `scope_spend_rollup`, `scope_credential_alerts`
-- `swp_clarify`, `swp_accept`, `swp_reject`, `swp_session_status` - Scope Work Protocol tools for existing negotiation sessions (the session-opening tools were retired at the rate-card cutover and are no longer served)
+- `swp_clarify`, `swp_accept`, `swp_reject`, `swp_session_status` - Scope Work Protocol tools for existing negotiation sessions (the session-opening tools are no longer served)
 
-**Claims** (`bid.scope/claims`): IME routing, surveillance coordination, defense medical record review, life-care planning, voc rehab routing, roster audit, credential alerts.
+**Claims** (`bid.scope/claims`, preview): status and waitlist tools. Live dispatch is not available yet.
 
-**AEC** (`bid.scope/aec`): subcontractor dispatch, prequalification, bonding capacity, safety record pulls, AEC vendor listing.
+**AEC** (`bid.scope/aec`, preview): status and waitlist tools. Live dispatch is not available yet.
 
 ## Environment variables
 
@@ -105,7 +105,7 @@ If you want bundled slash commands and skills along with the MCP server registra
 
 ## Evals
 
-Five canonical scenarios protect against regressions in MCP tool behavior.
+Canonical scenarios protect against regressions in MCP tool behavior.
 
 Run locally against mocks:
 
