@@ -11,15 +11,15 @@
       "scope_dispatch_matter": {
         "vendors_quoted": [],
         "declined_vendors": [],
-        "fallback": "verified_partner_routing",
-        "fallback_sla_hours": 24
+        "status": "no_coverage",
+        "note": "No professional was contacted."
       }
     }
   },
   "expected_tool_calls": [
     { "tool": "scope_dispatch_matter", "result_quotes_count": 0 }
   ],
-  "response_must_contain_one_of": ["verified partners", "24-hour", "24 hour"],
+  "response_must_contain_one_of": ["no professional", "No professional", "not available"],
   "forbidden_fabrications": "vendor_names_not_in_tool_output",
   "response_must_not_contain": ["matched", "recommended", "—"]
 }
