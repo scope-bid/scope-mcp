@@ -10,10 +10,10 @@
       "result": {
         "vendors_quoted": [],
         "declined_vendors": [],
-        "fallback": "verified_partner_routing",
-        "fallback_sla_hours": 24
+        "status": "no_coverage",
+        "note": "No professional was contacted."
       }
     }
   ],
-  "response_text": "Scope routes this category through verified partners when the live network has no in-network quotes for Cheyenne, Wyoming trial graphics. The request has been queued for manual fallback routing - three credentialed quotes back within the 24-hour SLA."
+  "response_text": "Scope returned no professional for trial graphics in Cheyenne, Wyoming, so no professional was contacted. I can check which categories Scope returns today, or you can contact Scope at scope.bid."
 }
