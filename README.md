@@ -84,9 +84,13 @@ HTTP endpoints:
 - `scope_roster_audit`, `scope_vendor_health`, `scope_spend_rollup`, `scope_credential_alerts`
 - `swp_clarify`, `swp_accept`, `swp_reject`, `swp_session_status` - Scope Work Protocol tools for existing negotiation sessions (the session-opening tools are no longer served)
 
-**Claims** (`bid.scope/claims`, preview): status and waitlist tools. Live dispatch is not available yet.
+**Claims** (`bid.scope/claims`, preview): no live dispatch or award yet.
+- npm package: `scope_claims_status`, `scope_claims_categories`, `scope_claims_join_waitlist`, `scope_reschedule_project`
+- HTTP endpoint: `scope_claims_status`, `scope_claims_join_waitlist`, and for a signed-in firm `scope_briefing`, read-only reporting tools and the deliverable tools ([details](packages/scope-claims-mcp/README.md#tools))
 
-**AEC** (`bid.scope/aec`, preview): status and waitlist tools. Live dispatch is not available yet.
+**AEC** (`bid.scope/aec`, preview): no live dispatch or award yet.
+- npm package: `scope_aec_status`, `scope_aec_categories`, `scope_aec_join_waitlist`, `scope_reschedule_project`
+- HTTP endpoint: status, waitlist, categories, subcontractor dispatch and award, prequalification, bonding and safety record tools, plus `scope_briefing`. In demo mode they answer with fictional sample data; for a signed-in firm only `scope_briefing` returns live data ([details](packages/scope-aec-mcp/README.md#tools))
 
 ## Environment variables
 
