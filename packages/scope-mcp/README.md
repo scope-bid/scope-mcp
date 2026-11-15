@@ -34,7 +34,7 @@ bid.scope/legal
 
 This package is the open-source SDK layer. The platform is hosted at scope.bid (same pattern as Stripe SDKs talking to api.stripe.com). You connect the MCP server, your AI calls it, the platform handles dispatch at published rate-card prices, approval by a person at the firm on every commitment a pre-authorization does not cover, payment via Stripe Connect, and the audit trail.
 
-The professional's published price is the price they keep. Scope's fee is a separate line on the firm's invoice. Two lines, always: the professional's price, and Scope's fee. Never one blended number. The fee applies to the professional's work only, never to mileage, filing fees, or anything Scope passes through at cost.
+The professional's published price is the price they keep. Scope's fee is a separate line on the firm's invoice. Two lines, always: the professional's price, and Scope's fee. Never one blended number. The fee is worked out on the professional's price, leaving out mileage and outside costs such as postage when they are listed on their own lines.
 
 ## What this package's tools cover
 
